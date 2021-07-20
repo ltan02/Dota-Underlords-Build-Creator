@@ -21,7 +21,7 @@ allow me to test out different team combinations and its viability in ranked gam
 enable me to practice using the Object-Oriented Programming (OOP) techniques and creating a Graphical User Interface
 (GUI).
 
-###User Stories
+### User Stories
 
  - As a user, I want to be able to add a hero to the board
  - As a user, I want to be able to view the heroes on the board
