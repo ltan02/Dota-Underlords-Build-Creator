@@ -24,7 +24,10 @@ enable me to practice using the Object-Oriented Programming (OOP) techniques and
 ### User Stories
 
  - As a user, I want to be able to add multiple heroes to a board
- - As a user, I want to be able to view the heroes on the board
- - As a user, I want to be able to remove a hero from the board 
+ - As a user, I want to be able to remove a hero from the board
+ - As a user, I want to be able to move the heroes 
+ - As a user, I want to be able to add multiple items to a board
+ - As a user, I want to be able to remove multiple items on the board
+ - As a user, I want to be able to move the items  
+ - As a user, I want to be able to view the heroes and items on the board
  - As a user, I want to see the Alliances of my board
- - As a user, I want to be able to choose an Alliance and view the possible heroes 
