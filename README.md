@@ -21,13 +21,10 @@ allow me to test out different team combinations and its viability in ranked gam
 enable me to practice using the Object-Oriented Programming (OOP) techniques and creating a Graphical User Interface
 (GUI).
 
-###User Stories
+### User Stories
 
- - As a user, I want to be able to add a hero to the board
+ - As a user, I want to be able to add multiple heroes to a board
  - As a user, I want to be able to view the heroes on the board
  - As a user, I want to be able to remove a hero from the board 
  - As a user, I want to see the Alliances of my board
  - As a user, I want to be able to choose an Alliance and view the possible heroes
- - As a user, I want to be able to select a hero and view its level information and Alliances
- - As a user, I want to be able to close boards and continue them exactly where I left off
- - As a user, I want to be able to save multiple boards
