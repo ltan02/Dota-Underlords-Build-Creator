@@ -27,4 +27,4 @@ enable me to practice using the Object-Oriented Programming (OOP) techniques and
  - As a user, I want to be able to view the heroes on the board
  - As a user, I want to be able to remove a hero from the board 
  - As a user, I want to see the Alliances of my board
- - As a user, I want to be able to choose an Alliance and view the possible heroes
+ - As a user, I want to be able to choose an Alliance and view the possible heroes 
