@@ -14,27 +14,31 @@ public class Hero extends Placeable {
 
     // EFFECTS: creates a new Hero
     public Hero(String name, int row, int column, String ability, String passive, int tier, List<String> alliances) {
-        super(name, row, column); // stub
+        super(name, row, column);
+        this.ability = ability;
+        this.passive = passive;
+        this.tier = tier;
+        this.alliances = alliances;
     }
 
     // EFFECTS: returns the alliances of the hero
     public List<String> getAlliances() {
-        return new ArrayList<>(); // stub
+        return this.alliances;
     }
 
     // EFFECTS: returns the ability of the hero
     public String getAbility() {
-        return ""; // stub
+        return this.ability;
     }
 
     // EFFECTS: returns the passive of the hero
     public String getPassive() {
-        return ""; // stub
+        return this.passive;
     }
 
     // EFFECTS: returns the tier of the hero
     public int getTier() {
-        return 0; // stub
+        return this.tier;
     }
 
 }

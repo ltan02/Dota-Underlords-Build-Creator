@@ -33,7 +33,7 @@ public class PlaceableTest {
     public void testMove() {
         unit.move(2, 4);
         assertEquals(unit.getRow(), 2);
-        assertEquals(unit.getRow(), 4);
+        assertEquals(unit.getColumn(), 4);
     }
 
 }

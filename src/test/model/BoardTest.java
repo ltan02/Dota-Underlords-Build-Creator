@@ -19,8 +19,12 @@ public class BoardTest {
 
     @Test
     public void testGetUnitWithUnit() {
-        Placeable testUnit = new Placeable("test", 2, 3);
-        assertTrue(board.addUnit(testUnit));
+        List<String> alliances = new ArrayList<>();
+        alliances.add("Vigilant");
+        alliances.add("Knight");
+        Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
+                2, alliances);
+        assertTrue(board.addHero(testUnit));
         assertEquals(board.getUnit(2, 3), testUnit);
     }
 
@@ -31,32 +35,70 @@ public class BoardTest {
 
     @Test
     public void testRemoveUnit() {
-        Placeable testUnit = new Placeable("test", 2, 3);
-        assertTrue(board.addUnit(testUnit));
+        List<String> alliances = new ArrayList<>();
+        alliances.add("Vigilant");
+        alliances.add("Knight");
+        Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
+                2, alliances);
+        assertTrue(board.addHero(testUnit));
         assertEquals(board.removeUnit(2, 3), testUnit);
         assertEquals(board.getUnit(2, 3), null);
     }
 
     @Test
-    public void testAddUnitSuccessful() {
-        Placeable testUnit = new Placeable("test", 2, 3);
-        assertTrue(board.addUnit(testUnit));
+    public void testAddHeroSuccessful() {
+        List<String> alliances = new ArrayList<>();
+        alliances.add("Vigilant");
+        alliances.add("Knight");
+        Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
+                2, alliances);
+        assertTrue(board.addHero(testUnit));
     }
 
     @Test
-    public void testAddUnitFailureAlreadyOccupied() {
-        Placeable testUnit = new Placeable("test", 2, 3);
-        assertTrue(board.addUnit(testUnit));
-        assertFalse(board.addUnit(testUnit));
+    public void testAddHeroFailureAlreadyOccupied() {
+        List<String> alliances = new ArrayList<>();
+        alliances.add("Vigilant");
+        alliances.add("Knight");
+        Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
+                2, alliances);
+        assertTrue(board.addHero(testUnit));
+        assertFalse(board.addHero(testUnit));
     }
 
     @Test
-    public void testAddUnitFailureDuplicate() {
-        Placeable testUnit = new Placeable("test", 2, 3);
-        assertTrue(board.addUnit(testUnit));
+    public void testAddHeroFailureDuplicate() {
+        List<String> alliances = new ArrayList<>();
+        alliances.add("Vigilant");
+        alliances.add("Knight");
+        Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
+                2, alliances);
+        assertTrue(board.addHero(testUnit));
 
-        Placeable testUnitDuplicate = new Placeable("test", 3, 5);
-        assertFalse(board.addUnit(testUnitDuplicate));
+        Hero testUnitDuplicate = new Hero("test", 3, 5, "test ability", "test passive",
+                2, alliances);
+        assertFalse(board.addHero(testUnitDuplicate));
+    }
+    @Test
+    public void testAddItemSuccessful() {
+        Item testUnit = new Item("test", 2, 3);
+        assertTrue(board.addItem(testUnit));
+    }
+
+    @Test
+    public void testAddItemFailureAlreadyOccupied() {
+        Item testUnit = new Item("test", 2, 3);
+        assertTrue(board.addItem(testUnit));
+        assertFalse(board.addItem(testUnit));
+    }
+
+    @Test
+    public void testAddItemFailureDuplicate() {
+        Item testUnit = new Item("test", 2, 3);
+        assertTrue(board.addItem(testUnit));
+
+        Item testUnitDuplicate = new Item("test", 3, 5);
+        assertFalse(board.addItem(testUnitDuplicate));
     }
 
     @Test
@@ -69,10 +111,9 @@ public class BoardTest {
         List<String> alliances = new ArrayList<>();
         alliances.add("Vigilant");
         alliances.add("Knight");
-
-        Placeable testUnit = new Hero("test", 2, 3, "test ability", "test passive",
+        Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addUnit(testUnit));
+        assertTrue(board.addHero(testUnit));
 
         List<String> receivedAlliances = board.getAlliances();
         assertEquals(receivedAlliances.size(), 2);
@@ -85,17 +126,16 @@ public class BoardTest {
         List<String> alliances1 = new ArrayList<>();
         alliances1.add("Vigilant");
         alliances1.add("Knight");
-
-        Placeable luna = new Hero("Luna", 2, 3, "test ability", "test passive",
+        Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addUnit(luna));
+        assertTrue(board.addHero(luna));
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Troll");
         alliances2.add("Knight");
-        Placeable batrider = new Hero("Batrider", 3, 5, "test ability", "test passive",
+        Hero batrider = new Hero("Batrider", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addUnit(batrider));
+        assertTrue(board.addHero(batrider));
 
         List<String> receivedAlliances = board.getAlliances();
         assertEquals(receivedAlliances.size(), 3);
@@ -109,16 +149,16 @@ public class BoardTest {
         List<String> alliances1 = new ArrayList<>();
         alliances1.add("Vigilant");
         alliances1.add("Knight");
-        Placeable luna = new Hero("Luna", 2, 3, "test ability", "test passive",
+        Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addUnit(luna));
+        assertTrue(board.addHero(luna));
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
-        Placeable bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
+        Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addUnit(bristle));
+        assertTrue(board.addHero(bristle));
 
         List<String> receivedAlliances = board.getAlliances();
         assertEquals(receivedAlliances.size(), 4);
@@ -133,14 +173,15 @@ public class BoardTest {
         int row = 0;
         int column = 0;
         for(int i = 0; i < Board.MAX_HEROES; i++) {
-            Placeable testUnit = new Hero("test" + i, row, column, "test ability", "test passive",
+            Hero testUnit = new Hero("test" + i, row, column, "test ability", "test passive",
                     1, null);
-            assertTrue(board.addUnit(testUnit));
+            assertTrue(board.addHero(testUnit));
+            column++;
             if (column == Board.MAX_COLUMNS) {
                 row++;
                 column = 0;
             }
-            column++;
+
         }
         assertTrue(board.isFullHeroes());
     }
@@ -155,8 +196,8 @@ public class BoardTest {
         int row = 0;
         int column = 0;
         for(int i = 0; i < Board.MAX_ITEMS; i++) {
-            Placeable testUnit = new Item("test" + i, row, column);
-            assertTrue(board.addUnit(testUnit));
+            Item testUnit = new Item("test" + i, row, column);
+            assertTrue(board.addItem(testUnit));
             if (column == Board.MAX_COLUMNS) {
                 row++;
                 column = 0;
@@ -190,19 +231,19 @@ public class BoardTest {
         List<String> alliances1 = new ArrayList<>();
         alliances1.add("Vigilant");
         alliances1.add("Knight");
-        Placeable luna = new Hero("Luna", 2, 3, "test ability", "test passive",
+        Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
 
-        assertTrue(board.addUnit(luna));
+        assertTrue(board.addHero(luna));
         tiles[2][3] = luna;
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
-        Placeable bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
+        Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
 
-        assertTrue(board.addUnit(bristle));
+        assertTrue(board.addHero(bristle));
         tiles[3][5] = bristle;
 
         Placeable[][] receivedTiles = board.getTiles();
@@ -224,9 +265,9 @@ public class BoardTest {
         List<String> alliances = new ArrayList<>();
         alliances.add("Vigilant");
         alliances.add("Knight");
-        Placeable luna = new Hero("Luna", 2, 3, "test ability", "test passive",
+        Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addUnit(luna));
+        assertTrue(board.addHero(luna));
 
         List<Hero> heroes = board.getHeroes();
         assertEquals(heroes.size(), 1);
@@ -238,16 +279,16 @@ public class BoardTest {
         List<String> alliances1 = new ArrayList<>();
         alliances1.add("Vigilant");
         alliances1.add("Knight");
-        Placeable luna = new Hero("Luna", 2, 3, "test ability", "test passive",
+        Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addUnit(luna));
+        assertTrue(board.addHero(luna));
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
-        Placeable bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
+        Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addUnit(bristle));
+        assertTrue(board.addHero(bristle));
 
         List<Hero> heroes = board.getHeroes();
         assertEquals(heroes.size(), 2);
@@ -262,8 +303,8 @@ public class BoardTest {
 
     @Test
     public void testGetItemsOne() {
-        Placeable item1 = new Item("test item", 2, 3);
-        assertTrue(board.addUnit(item1));
+        Item item1 = new Item("test item", 2, 3);
+        assertTrue(board.addItem(item1));
 
         List<Item> items = board.getItems();
         assertEquals(items.size(), 1);
@@ -272,11 +313,11 @@ public class BoardTest {
 
     @Test
     public void testGetItemsMany() {
-        Placeable item1 = new Item("test item", 2, 3);
-        assertTrue(board.addUnit(item1));
+        Item item1 = new Item("test item", 2, 3);
+        assertTrue(board.addItem(item1));
 
-        Placeable item2 = new Item("test item 2", 3, 5);
-        assertTrue(board.addUnit(item2));
+        Item item2 = new Item("test item 2", 3, 5);
+        assertTrue(board.addItem(item2));
 
         List<Item> items = board.getItems();
         assertEquals(items.size(), 2);
@@ -286,10 +327,10 @@ public class BoardTest {
 
     @Test
     public void testToStringEmptyBoard() {
-        String boardString = "x x x x x x x x\n" +
-                       "x x x x x x x x\n" +
-                       "x x x x x x x x\n" +
-                       "x x x x x x x x\n";
+        String boardString = "x x x x x x x x \n" +
+                       "x x x x x x x x \n" +
+                       "x x x x x x x x \n" +
+                       "x x x x x x x x \n";
         assertEquals(board.toString(), boardString);
     }
 
@@ -298,14 +339,14 @@ public class BoardTest {
         List<String> alliances1 = new ArrayList<>();
         alliances1.add("Vigilant");
         alliances1.add("Knight");
-        Placeable luna = new Hero("Luna", 2, 3, "test ability", "test passive",
+        Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addUnit(luna));
+        assertTrue(board.addHero(luna));
 
-        String boardString = "x x x x x x x x\n" +
-                "x x x x x x x x\n" +
-                "x x x 0 x x x x\n" +
-                "x x x x x x x x\n";
+        String boardString = "x x x x x x x x \n" +
+                "x x x x x x x x \n" +
+                "x x x 0 x x x x \n" +
+                "x x x x x x x x \n";
         assertEquals(board.toString(), boardString);
     }
 
@@ -314,47 +355,47 @@ public class BoardTest {
         List<String> alliances1 = new ArrayList<>();
         alliances1.add("Vigilant");
         alliances1.add("Knight");
-        Placeable luna = new Hero("Luna", 2, 3, "test ability", "test passive",
+        Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addUnit(luna));
+        assertTrue(board.addHero(luna));
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
-        Placeable bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
+        Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addUnit(bristle));
+        assertTrue(board.addHero(bristle));
 
-        String boardString = "x x x x x x x x\n" +
-                "x x x x x x x x\n" +
-                "x x x 0 x x x x\n" +
-                "x x x x x 1 x x\n";
+        String boardString = "x x x x x x x x \n" +
+                "x x x x x x x x \n" +
+                "x x x 0 x x x x \n" +
+                "x x x x x 1 x x \n";
         assertEquals(board.toString(), boardString);
     }
 
     @Test
     public void testToStringMultipleHeroesAndItems() {
-        Placeable item1 = new Item("Barricade", 0, 1);
-        assertTrue(board.addUnit(item1));
+        Item item1 = new Item("Barricade", 0, 1);
+        assertTrue(board.addItem(item1));
 
         List<String> alliances1 = new ArrayList<>();
         alliances1.add("Vigilant");
         alliances1.add("Knight");
-        Placeable luna = new Hero("Luna", 2, 3, "test ability", "test passive",
+        Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addUnit(luna));
+        assertTrue(board.addHero(luna));
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
-        Placeable bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
+        Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addUnit(bristle));
+        assertTrue(board.addHero(bristle));
 
-        String boardString = "x b x x x x x x\n" +
-                "x x x x x x x x\n" +
-                "x x x 0 x x x x\n" +
-                "x x x x x 1 x x\n";
+        String boardString = "x b x x x x x x \n" +
+                "x x x x x x x x \n" +
+                "x x x 0 x x x x \n" +
+                "x x x x x 1 x x \n";
         assertEquals(board.toString(), boardString);
     }
 
