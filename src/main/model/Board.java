@@ -119,7 +119,7 @@ public class Board {
                     int index = this.heroes.indexOf(this.tiles[row][col]);
                     outputString.append(index + " ");
                 } else if (this.tiles[row][col] instanceof Item) {
-                    outputString.append(this.tiles[row][col].getName().substring(0, 1).toLowerCase(Locale.ROOT) + " ");
+                    outputString.append(this.tiles[row][col].getName().substring(0, 1).toLowerCase() + " ");
                 } else {
                     outputString.append("x ");
                 }
