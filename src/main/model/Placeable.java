@@ -4,15 +4,16 @@ package model;
 public class Placeable {
 
     protected String name;
-
     protected int row;
     protected int column;
+    protected Board bd;
 
     // EFFECTS: constructs a placeable object with a name, row, and column
-    public Placeable(String name, int row, int column) {
+    public Placeable(String name, int row, int column, Board bd) {
         this.name = name;
         this.row = row;
         this.column = column;
+        this.bd = bd;
     }
 
     // EFFECTS: returns the name

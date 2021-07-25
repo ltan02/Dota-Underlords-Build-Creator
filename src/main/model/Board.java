@@ -5,15 +5,14 @@ import exceptions.UnitAlreadyOnBoardException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 // Represents a Dota Underlords board
 public class Board {
 
     public static final int MAX_HEROES = 10;
     public static final int MAX_ITEMS = 3;
-    public static final int MAX_COLUMNS = 8; // uses 0-indexing
-    public static final int MAX_ROWS = 4; // uses 0-indexing
+    public static final int MAX_COLUMNS = 8;
+    public static final int MAX_ROWS = 4;
 
     private Placeable[][] tiles;
     private List<Hero> heroes;
@@ -32,13 +31,49 @@ public class Board {
         return this.tiles[row][column];
     }
 
-    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7 and there is a unit at that row and column
+    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7 and there is a hero at that row and column
     // MODIFIES: this
-    // EFFECTS: returns and removes the unit at the given row and column
-    public Placeable removeUnit(int row, int column) {
+    // EFFECTS: returns and removes the hero at the given row and column
+    public Hero removeHero(int row, int column) {
         Placeable removedUnit = this.tiles[row][column];
+        Hero removedHero = null;
+
+        for (int i = 0; i < heroes.size(); i++) {
+            if (removedUnit.name.equals(heroes.get(i).getName())) {
+                removedHero = heroes.get(i);
+                heroes.remove(i);
+            }
+        }
+
         this.tiles[row][column] = null;
-        return removedUnit;
+        return removedHero;
+    }
+
+    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7 and there is a item at that row and column
+    // MODIFIES: this
+    // EFFECTS: returns and removes the item at the given row and column
+    public Item removeItem(int row, int column) {
+        Placeable removedUnit = this.tiles[row][column];
+        Item removedItem = null;
+
+        for (int i = 0; i < items.size(); i++) {
+            if (removedUnit.name.equals(items.get(i).getName())) {
+                removedItem = items.get(i);
+                items.remove(i);
+            }
+        }
+
+        this.tiles[row][column] = null;
+        return removedItem;
+    }
+
+    // REQUIRES: 0 <= newRow <= 3 and 0 <= newCol <= 7 and there is no unit at that newRow and newCol
+    // MODIFIES: this
+    // EFFECTS: moves the unit to the new location at newRow, newCol
+    public void moveUnit(Placeable unit, int newRow, int newCol) {
+        tiles[unit.getRow()][unit.getColumn()] = null;
+        unit.move(newRow, newCol);
+        tiles[newRow][newCol] = unit;
     }
 
     // MODIFIES: this

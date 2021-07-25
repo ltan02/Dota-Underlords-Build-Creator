@@ -4,8 +4,8 @@ package model;
 public class Item extends Placeable {
 
     // EFFECTS: creates a new Item
-    public Item(String name, int row, int column) {
-        super(name, row, column);
+    public Item(String name, int row, int column, Board bd) {
+        super(name, row, column, bd);
     }
 
 

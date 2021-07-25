@@ -21,15 +21,18 @@ public class UnderlordApp {
     private List<String[]> possibleHeroes; // String[] format {name, ability, passive, tier,
                                            //                  alliance1, alliance2, alliance3}
                                            // null if there is no ability, passive, or alliance3
+    private List<String> possibleItems;
 
     // EFFECTS: runs the Underlord application
     public UnderlordApp() {
         runUnderlord();
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     private void runUnderlord() {
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         init();
 
@@ -48,65 +51,355 @@ public class UnderlordApp {
         System.out.println("\nGoodbye!");
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes the UnderlordApp
     private void init() {
         input = new Scanner(System.in);
         board = new Board();
         possibleHeroes = new ArrayList<>();
+        possibleItems = new ArrayList<>();
         setUpTier1Heroes();
         setUpTier2Heroes();
         setUpTier3Heroes();
         setUpTier4Heroes();
         setUpTier5Heroes();
+        setUpPossibleItems();
     }
 
+    // EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("\nSelect from:");
         System.out.println("\th -> View all possible heroes");
         System.out.println("\tt -> View possible heroes by tier");
+        System.out.println("\ts -> View hero information");
+        System.out.println("\ti -> View possible items");
         System.out.println("\tv -> View board");
-        System.out.println("\ta -> Add Hero");
+        System.out.println("\ta -> Add Unit");
+        System.out.println("\tr -> Remove Unit");
+        System.out.println("\tm -> Move Unit");
+        System.out.println("\tq -> Quit Application");
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processCommand(String command) {
         if (command.equals("h")) {
+            System.out.println("Here are all the possible heroes:");
             doViewPossibleHeroes();
         } else if (command.equals("t")) {
             doViewPossibleHeroesByTier();
+        } else if (command.equals("s")) {
+            doHeroInformation();
+        } else if (command.equals("i")) {
+            doViewItems();
         } else if (command.equals("v")) {
             doViewBoard();
         } else if (command.equals("a")) {
-            doAddHero();
+            doAddUnit();
+        } else if (command.equals("r")) {
+            doRemoveUnit();
+        } else if (command.equals("m")) {
+            doMoveUnit();
         } else {
             System.out.println("Selection not valid...");
         }
     }
 
+    // EFFECTS: processes user command for displaying hero information
+    private void doHeroInformation() {
+        System.out.println("Choose a hero from the list for more information about it: ");
+        doViewPossibleHeroes();
+        int command = input.nextInt();
+        input.nextLine();
+        String[] heroInformation = possibleHeroes.get(command - 1);
+        displayHeroInformation(heroInformation);
+    }
+
+    // EFFECTS: prints out the information of the given hero
+    private void displayHeroInformation(String[] heroInformation) {
+        System.out.println("Hero name: " + heroInformation[0]);
+        if (heroInformation[1] != null) {
+            System.out.println("Ability: " + heroInformation[1]);
+        }
+        if (heroInformation[2] != null) {
+            System.out.println("Passive: " + heroInformation[2]);
+        }
+        System.out.println("Tier: " + heroInformation[3]);
+        System.out.println("Alliance 1: " + heroInformation[4]);
+        System.out.println("Alliance 2: " + heroInformation[5]);
+        if (heroInformation[6] != null) {
+            System.out.println("Alliance 3: " + heroInformation[6]);
+        }
+    }
+
+    // EFFECTS: prints out the heroes that are on the board
+    private void showHeroesOnBoard() {
+        List<Hero> heroes = board.getHeroes();
+        int counter = 1;
+        for (Hero hero : heroes) {
+            System.out.println("\t" + counter + ") " + hero.getName() + " [row: " + (hero.getRow() + 1) + ", col: "
+                    + (hero.getColumn() + 1) + "]");
+            counter++;
+        }
+    }
+
+    // EFFECTS: prints out the items that are on the board
+    private void showItemsOnBoard() {
+        List<Item> items = board.getItems();
+        int counter = 1;
+        for (Item item : items) {
+            System.out.println("\t" + counter + ") " + item.getName() + " [row: " + (item.getRow() + 1) + ", col: "
+                    + (item.getColumn() + 1) + "]");
+            counter++;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: processes user command for moving either a hero or an item
+    private void doMoveUnit() {
+        if (board.getHeroes().size() == 0 && board.getItems().size() == 0) {
+            System.out.println("There are no heroes and items to move");
+        } else {
+            int command;
+            do {
+                System.out.println("Select if you want to move a hero (1) or an item (2): ");
+                command = input.nextInt();
+                input.nextLine();
+            } while (command != 1 && command != 2);
+            if (command == 1) {
+                if (board.getHeroes().size() == 0) {
+                    System.out.println("There are no heroes to move");
+                } else {
+                    moveHero();
+                }
+            } else {
+                if (board.getItems().size() == 0) {
+                    System.out.println("There are no items to move");
+                } else {
+                    moveItem();
+                }
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: moves the chosen hero to the user's given row and column
+    private void moveHero() {
+        int command;
+        System.out.println("Select a hero on the board from the list:");
+        showHeroesOnBoard();
+        command = input.nextInt();
+        input.nextLine();
+
+        Hero hero = board.getHeroes().get(command - 1);
+
+        System.out.println("Please put the new row for " + hero.getName() + " (between 1 and " + Board.MAX_ROWS
+                + " inclusive):");
+        int newRow = input.nextInt();
+        input.nextLine();
+        System.out.println("Please put the new column for " + hero.getName() + " (between 1 and " + Board.MAX_COLUMNS
+                + " inclusive):");
+        int newCol = input.nextInt();
+        input.nextLine();
+
+        if (board.getTiles()[newRow - 1][newCol - 1] != null) {
+            System.out.println("Unable to place hero in this spot as it is already occupied");
+        } else {
+            board.moveUnit(hero, newRow - 1, newCol - 1);
+            doViewBoard();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: moves the chosen item to the user's given row and column
+    private void moveItem() {
+        int command;
+        System.out.println("Select an item on the board from the list:");
+        showItemsOnBoard();
+        command = input.nextInt();
+        input.nextLine();
+
+        Item item = board.getItems().get(command - 1);
+
+        System.out.println("Please put the new row for " + item.getName() + " (between 1 and " + Board.MAX_ROWS
+                + " inclusive):");
+        int newRow = input.nextInt();
+        input.nextLine();
+        System.out.println("Please put the new column for " + item.getName() + " (between 1 and " + Board.MAX_COLUMNS
+                + " inclusive):");
+        int newCol = input.nextInt();
+        input.nextLine();
+
+        if (board.getTiles()[newRow - 1][newCol - 1] != null) {
+            System.out.println("Unable to place hero in this spot as it is already occupied");
+        } else {
+            board.moveUnit(item, newRow - 1, newCol - 1);
+            doViewBoard();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: processes user command for removing a hero or an item
+    private void doRemoveUnit() {
+        if (board.getHeroes().size() == 0 && board.getItems().size() == 0) {
+            System.out.println("There are no heroes and items to remove");
+        } else {
+            int command;
+            do {
+                System.out.println("Select if you want to remove a hero (1) or an item (2): ");
+                command = input.nextInt();
+                input.nextLine();
+            } while (command != 1 && command != 2);
+            if (command == 1) {
+                if (board.getHeroes().size() == 0) {
+                    System.out.println("There are no heroes to remove");
+                } else {
+                    removeHero();
+                }
+            } else {
+                if (board.getItems().size() == 0) {
+                    System.out.println("There are no items to remove");
+                } else {
+                    removeItem();
+                }
+            }
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes the chosen hero from the board
+    private void removeHero() {
+        int command;
+        System.out.println("Select a hero on the board from the list:");
+        showHeroesOnBoard();
+        command = input.nextInt();
+        input.nextLine();
+        Hero hero = board.getHeroes().get(command - 1);
+        board.removeHero(hero.getRow(), hero.getColumn());
+        doViewBoard();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes the chosen item from the board
+    private void removeItem() {
+        int command;
+        System.out.println("Select an item on the board from the list:");
+        showItemsOnBoard();
+        command = input.nextInt();
+        input.nextLine();
+        Item item = board.getItems().get(command - 1);
+        board.removeItem(item.getRow(), item.getColumn());
+        doViewBoard();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: processes the user's command on whether to add a hero or an item
+    private void doAddUnit() {
+        int command;
+        do {
+            System.out.println("Select if you want to add a hero (1) or an item (2): ");
+            command = input.nextInt();
+            input.nextLine();
+        } while (command != 1 && command != 2);
+        if (command == 1) {
+            doAddHero();
+        } else {
+            doAddItem();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds the chosen hero to the board
     private void doAddHero() {
-        System.out.println("Select the number corresponding to the hero: ");
-        int possibleHeroesIndex = input.nextInt();
-        String[] heroInformation = possibleHeroes.get(possibleHeroesIndex - 1);
-        System.out.println("Please select the row to place it in (between 1 and " + Board.MAX_ROWS + " inclusive):");
+        if (board.isFullHeroes()) {
+            System.out.println("The board is already full");
+        } else {
+            System.out.println("Here are all the possible heroes:");
+            doViewPossibleHeroes();
+            System.out.println("Select the number corresponding to the hero: ");
+            int possibleHeroesIndex = input.nextInt();
+            input.nextLine();
+            String[] heroInformation = possibleHeroes.get(possibleHeroesIndex - 1);
+            Hero hero = createHero(heroInformation);
+            try {
+                board.addHero(hero);
+                System.out.println("Hero was successfully added");
+                doViewBoard();
+            } catch (TileOccupiedException e) {
+                System.out.println("The tile is already occupied");
+            } catch (UnitAlreadyOnBoardException e) {
+                System.out.println("The hero is already on the board");
+            }
+        }
+    }
+
+    // EFFECTS: creates a Hero instance at the user's given row and column
+    private Hero createHero(String[] heroInformation) {
+        System.out.println("Please put the row to place it in (between 1 and " + Board.MAX_ROWS + " inclusive):");
         int row = input.nextInt();
-        System.out.println("Please select the column to place it in (between 1 and " + Board.MAX_COLUMNS
+        input.nextLine();
+        System.out.println("Please put the column to place it in (between 1 and " + Board.MAX_COLUMNS
                 + " inclusive):");
         int column = input.nextInt();
+        input.nextLine();
         List<String> alliances = new ArrayList<>();
         for (int i = 4; i <= 6; i++) {
             if (heroInformation[i] != null) {
                 alliances.add(heroInformation[i]);
             }
         }
-        Hero hero = new Hero(heroInformation[0], row - 1, column - 1, heroInformation[1], heroInformation[2],
-                Integer.parseInt(heroInformation[3]), alliances);
-        try {
-            board.addHero(hero);
-        } catch (TileOccupiedException e) {
-            System.out.println("The tile is already occupied");
-        } catch (UnitAlreadyOnBoardException e) {
-            System.out.println("The hero is already on the board");
+        return new Hero(heroInformation[0], row - 1, column - 1, board, heroInformation[1],
+                heroInformation[2], Integer.parseInt(heroInformation[3]), alliances);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds the chosen item to the board
+    private void doAddItem() {
+        if (board.isFullItems()) {
+            System.out.println("The board is already full");
+        } else {
+            doViewItems();
+            System.out.println("Select the letter corresponding to the item: ");
+            int possibleItemIndex = input.nextInt();
+            input.nextLine();
+            String itemName = possibleItems.get(possibleItemIndex - 1);
+            Item item = createItem(itemName);
+            try {
+                board.addItem(item);
+                System.out.println("Item was successfully added");
+                doViewBoard();
+            } catch (TileOccupiedException e) {
+                System.out.println("The tile is already occupied");
+            } catch (UnitAlreadyOnBoardException e) {
+                System.out.println("The hero is already on the board");
+            }
         }
     }
 
+    // REQUIRES: itemName is not null or length of 0
+    // EFFECTS: Creates an Item instance with the user's given row and column
+    private Item createItem(String itemName) {
+        System.out.println("Please put the row to place it in (between 1 and " + Board.MAX_ROWS + " inclusive):");
+        int row = input.nextInt();
+        input.nextLine();
+        System.out.println("Please put the column to place it in (between 1 and " + Board.MAX_COLUMNS
+                + " inclusive):");
+        int column = input.nextInt();
+        input.nextLine();
+        return new Item(itemName, row, column, board);
+    }
+
+    // EFFECTS: prints a list of all the items that the user can choose
+    private void doViewItems() {
+        System.out.println("Here are all the possible items:");
+        for (int i = 0; i < possibleItems.size(); i++) {
+            System.out.println("\t" + (i + 1) + ") " + possibleItems.get(i));
+        }
+
+    }
+
+    // EFFECTS: prints all the information for the board including: key to read the board, the board itself, and the
+    //          alliances
     private void doViewBoard() {
         System.out.println("Key (used to read the board): ");
 
@@ -121,19 +414,21 @@ public class UnderlordApp {
         }
 
         System.out.println("\tItems:");
-        if (board.getHeroes().size() == 0) {
+        if (board.getItems().size() == 0) {
             System.out.println("\t\tNo items on the board");
         } else {
             List<Item> items = board.getItems();
-            for (int i = 0; i < items.size(); i++) {
-                System.out.println("\t\t" + i + " - " + items.get(i).getName());
+            for (Item item : items) {
+                System.out.println("\t\t" + item.getName().substring(0, 1).toLowerCase() + " - " + item.getName());
             }
         }
         System.out.println(board.toString());
+        List<String> alliances = board.getAlliances();
+        System.out.println("Alliances: " + alliances.toString());
     }
 
+    // EFFECTS: prints out all the possible heroes that can be chosen
     private void doViewPossibleHeroes() {
-        System.out.println("Here are all the possible heroes:");
         int counter = 1;
         for (String[] heroInfo : possibleHeroes) {
             System.out.println("\t" + counter + ") " + heroInfo[0]);
@@ -141,10 +436,11 @@ public class UnderlordApp {
         }
     }
 
+    // EFFECTS: processes user command for viewing heroes by their tier
     private void doViewPossibleHeroesByTier() {
         int currentTier = 1;
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         while (keepGoing) {
             printHeroesBasedOnTier(currentTier);
@@ -160,10 +456,10 @@ public class UnderlordApp {
             } else {
                 System.out.println("Selection not valid...");
             }
-
         }
     }
 
+    // EFFECTS: prints commands that user can use to navigate between tiers
     private void displayHeroByTierMenu(int tier) {
         System.out.println("\nSelect from:");
         if (tier != 1) {
@@ -175,6 +471,7 @@ public class UnderlordApp {
         System.out.println("\tb -> Return to Menu");
     }
 
+    // EFFECTS: prints out the heroes based on their tier
     private void printHeroesBasedOnTier(int tier) {
         System.out.println("Here are all the possible heroes that are tier " + tier + ":");
 
@@ -197,6 +494,8 @@ public class UnderlordApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds all the tier 1 heroes to the possibleHeroes
     private void setUpTier1Heroes() {
         possibleHeroes.add(new String[]{"Anti-Mage", null, "Mana Break", "1", "Rogue", "Hunter", null});
         possibleHeroes.add(new String[]{"Batrider", "Sticky Napalm", null, "1", "Troll", "Knight", null});
@@ -216,6 +515,8 @@ public class UnderlordApp {
         possibleHeroes.add(new String[]{"Venomancer", "Plague Ward", null, "1", "Scaled", "Summoner", "Poisoner"});
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds all the tier 2 heroes to the possibleHeroes
     private void setUpTier2Heroes() {
         possibleHeroes.add(new String[]{"Bristleback", null, "Quill Spray", "2", "Brawny", "Savage", null});
         possibleHeroes.add(new String[]{"Chaos Knight", "Chaos Bolt", null, "2", "Demon", "Knight", null});
@@ -237,6 +538,8 @@ public class UnderlordApp {
         possibleHeroes.add(new String[]{"Windranger", "Powershot", null, "2", "Vigilant", "Hunter", null});
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds all the tier 3 heroes to the possibleHeroes
     private void setUpTier3Heroes() {
         possibleHeroes.add(new String[]{"Abaddon", "Aphotic Shield", null, "3", "Fallen", "Knight", null});
         possibleHeroes.add(new String[]{"Alchemist", "Acid Spray", null, "3", "Brute", "Rogue", "Poisoner"});
@@ -254,6 +557,8 @@ public class UnderlordApp {
         possibleHeroes.add(new String[]{"Treant Protector", "Leech Seed", null, "3", "Shaman", "Healer", null});
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds all the tier 4 heroes to the possibleHeroes
     private void setUpTier4Heroes() {
         possibleHeroes.add(new String[]{"Death Prophet", "Exorcism", null, "4", "Fallen", "Heartless", null});
         possibleHeroes.add(new String[]{"Doom", "Doom", null, "4", "Demon", "Brute", null});
@@ -272,6 +577,8 @@ public class UnderlordApp {
         possibleHeroes.add(new String[]{"Void Spirit", "Dissimilate", "Void Elemental", "4", "Void", "Spirit", null});
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds all the tier 5 heroes to the possibleHeroes
     private void setUpTier5Heroes() {
         possibleHeroes.add(new String[]{"Axe", "Culling Blade", "Counter Helix", "5", "Brawny", "Brute", null});
         possibleHeroes.add(new String[]{"Dragon Knight", "Breathe Fire", null, "5", "Human", "Dragon", "Knight"});
@@ -281,6 +588,14 @@ public class UnderlordApp {
         possibleHeroes.add(new String[]{"Troll Warlord", null, "Fervor", "5", "Troll", "Warrior", null});
         possibleHeroes.add(new String[]{"Wraith King", "Wraithfire Blast", "Raise Dead", "5", "Fallen", "Swordsman",
                 null});
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds all the items to possibleItems
+    private void setUpPossibleItems() {
+        possibleItems.add("Barricade");
+        possibleItems.add("Mango Tree");
+        possibleItems.add("Target Buddy");
     }
 
 }

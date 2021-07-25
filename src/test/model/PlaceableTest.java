@@ -11,7 +11,7 @@ public class PlaceableTest {
 
     @BeforeEach
     public void runBefore() {
-        unit = new Placeable("test", 1, 2);
+        unit = new Placeable("test", 1, 2, new Board());
     }
 
     @Test

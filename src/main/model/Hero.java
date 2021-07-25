@@ -13,8 +13,9 @@ public class Hero extends Placeable {
     private List<String> alliances;
 
     // EFFECTS: creates a new Hero
-    public Hero(String name, int row, int column, String ability, String passive, int tier, List<String> alliances) {
-        super(name, row, column);
+    public Hero(String name, int row, int column, Board bd, String ability, String passive, int tier,
+                List<String> alliances) {
+        super(name, row, column, bd);
         this.ability = ability;
         this.passive = passive;
         this.tier = tier;

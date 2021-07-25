@@ -17,7 +17,7 @@ public class HeroTest {
         List<String> alliances = new ArrayList<>();
         alliances.add("Spirit");
         alliances.add("Mage");
-        stormSpirit = new Hero("Storm Spirit", 1, 2, "Ball Lightning",
+        stormSpirit = new Hero("Storm Spirit", 1, 2, new Board(), "Ball Lightning",
                 "Storm Elemental", 2, alliances);
     }
 
