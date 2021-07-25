@@ -275,7 +275,7 @@ public class UnderlordApp {
         command = input.nextInt();
         input.nextLine();
         Hero hero = board.getHeroes().get(command - 1);
-        board.removeUnit(hero.getRow(), hero.getColumn());
+        board.removeHero(hero.getRow(), hero.getColumn());
         doViewBoard();
     }
 
@@ -288,7 +288,7 @@ public class UnderlordApp {
         command = input.nextInt();
         input.nextLine();
         Item item = board.getItems().get(command - 1);
-        board.removeUnit(item.getRow(), item.getColumn());
+        board.removeItem(item.getRow(), item.getColumn());
         doViewBoard();
     }
 

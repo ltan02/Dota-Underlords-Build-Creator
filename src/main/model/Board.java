@@ -33,9 +33,42 @@ public class Board {
 
     // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7
     // MODIFIES: this
-    // EFFECTS: removes the unit at the given row and column
-    public void removeUnit(int row, int column) {
-        this.tiles[row][column] = null;
+    // EFFECTS: returns and removes the hero at the given row and column
+    public Hero removeHero(int row, int column) {
+        Placeable removedUnit = this.tiles[row][column];
+        Hero removedHero = null;
+
+        if (removedUnit != null) {
+            for (int i = 0; i < heroes.size(); i++) {
+                if (removedUnit.name.equals(heroes.get(i).getName())) {
+                    removedHero = heroes.get(i);
+                    heroes.remove(i);
+                    this.tiles[row][column] = null;
+                }
+            }
+        }
+
+        return removedHero;
+    }
+
+    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7
+    // MODIFIES: this
+    // EFFECTS: returns and removes the item at the given row and column
+    public Item removeItem(int row, int column) {
+        Placeable removedUnit = this.tiles[row][column];
+        Item removedItem = null;
+
+        if (removedUnit != null) {
+            for (int i = 0; i < items.size(); i++) {
+                if (removedUnit.name.equals(items.get(i).getName())) {
+                    removedItem = items.get(i);
+                    items.remove(i);
+                    this.tiles[row][column] = null;
+                }
+            }
+        }
+
+        return removedItem;
     }
 
     // REQUIRES: 0 <= newRow <= 3 and 0 <= newCol <= 7 and there is no unit at that newRow and newCol

@@ -41,7 +41,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testRemoveUnit() {
+    public void testRemoveHero() {
         List<String> alliances = new ArrayList<>();
         alliances.add("Vigilant");
         alliances.add("Knight");
@@ -52,8 +52,57 @@ public class BoardTest {
         } catch (AddUnitException e) {
             fail("Unexcepted error with adding unit");
         }
-        board.removeUnit(2, 3);
+        assertEquals(board.removeHero(2, 3), testUnit);
         assertEquals(board.getUnit(2, 3), null);
+    }
+
+    @Test
+    public void testRemoveHeroWithNoHeroes() {
+        assertEquals(board.removeHero(2, 3), null);
+    }
+
+    @Test
+    public void testNotRemoveHeroWithHeroes() {
+        List<String> alliances = new ArrayList<>();
+        alliances.add("Vigilant");
+        alliances.add("Knight");
+        Hero testUnit = new Hero("test", 2, 3, board, "test ability", "test passive",
+                2, alliances);
+        try {
+            board.addHero(testUnit);
+        } catch (AddUnitException e) {
+            fail("Unexpected error with adding unit");
+        }
+
+        assertEquals(board.removeHero(2, 4), null);
+    }
+
+    @Test
+    public void testRemoveItem() {
+        Item testItem = new Item("test", 2, 3, board);
+        try {
+            board.addItem(testItem);
+        } catch (AddUnitException e) {
+            fail("Unexpected error with adding unit");
+        }
+        assertEquals(board.removeItem(2, 3), testItem);
+        assertEquals(board.getUnit(2, 3), null);
+    }
+
+    @Test
+    public void testRemoveItemWithNoItems() {
+        assertEquals(board.removeItem(2, 3), null);
+    }
+
+    @Test
+    public void testNotRemoveItemWithItems() {
+        Item testItem = new Item("test", 2, 3, board);
+        try {
+            board.addItem(testItem);
+        } catch (AddUnitException e) {
+            fail("Unexpected error with adding unit");
+        }
+        assertEquals(board.removeItem(2, 4), null);
     }
 
     @Test
