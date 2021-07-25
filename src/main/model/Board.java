@@ -31,7 +31,7 @@ public class Board {
         return this.tiles[row][column];
     }
 
-    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7 and there is a hero at that row and column
+    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7
     // MODIFIES: this
     // EFFECTS: returns and removes the hero at the given row and column
     public Hero removeHero(int row, int column) {
@@ -42,14 +42,14 @@ public class Board {
             if (removedUnit.name.equals(heroes.get(i).getName())) {
                 removedHero = heroes.get(i);
                 heroes.remove(i);
+                this.tiles[row][column] = null;
             }
         }
 
-        this.tiles[row][column] = null;
         return removedHero;
     }
 
-    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7 and there is a item at that row and column
+    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7
     // MODIFIES: this
     // EFFECTS: returns and removes the item at the given row and column
     public Item removeItem(int row, int column) {

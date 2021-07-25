@@ -57,6 +57,11 @@ public class BoardTest {
     }
 
     @Test
+    public void testRemoveHeroWithNoHero() {
+        assertEquals(board.removeHero(2, 3), null);
+    }
+
+    @Test
     public void testRemoveItem() {
         Item testItem = new Item("test", 2, 3, board);
         try {
@@ -66,6 +71,11 @@ public class BoardTest {
         }
         assertEquals(board.removeItem(2, 3), testItem);
         assertEquals(board.getUnit(2, 3), null);
+    }
+
+    @Test
+    public void testRemoveHeroWithNoItem() {
+        assertEquals(board.removeItem(2, 3), null);
     }
 
     @Test
