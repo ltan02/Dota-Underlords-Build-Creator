@@ -63,18 +63,29 @@ public class BoardTest {
 
     @Test
     public void testNotRemoveHeroWithHeroes() {
-        List<String> alliances = new ArrayList<>();
-        alliances.add("Vigilant");
-        alliances.add("Knight");
-        Hero testUnit = new Hero("test", 2, 3, board, "test ability", "test passive",
-                2, alliances);
+        List<String> alliances1 = new ArrayList<>();
+        alliances1.add("Vigilant");
+        alliances1.add("Knight");
+        Hero luna = new Hero("Luna", 2, 3, board, "test ability", "test passive",
+                2, alliances1);
         try {
-            board.addHero(testUnit);
+            board.addHero(luna);
         } catch (AddUnitException e) {
-            fail("Unexpected error with adding unit");
+            fail("Unexcepted error with adding unit");
         }
 
-        assertEquals(board.removeHero(2, 4), null);
+        List<String> alliances2 = new ArrayList<>();
+        alliances2.add("Brawny");
+        alliances2.add("Savage");
+        Hero bristle = new Hero("Bristle", 3, 5, board, "test ability", "test passive",
+                2, alliances2);
+        try {
+            board.addHero(bristle);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
+
+        assertEquals(board.removeHero(3, 5), bristle);
     }
 
     @Test
@@ -96,13 +107,21 @@ public class BoardTest {
 
     @Test
     public void testNotRemoveItemWithItems() {
-        Item testItem = new Item("test", 2, 3, board);
+        Item item1 = new Item("test item", 2, 3, board);
         try {
-            board.addItem(testItem);
+            board.addItem(item1);
         } catch (AddUnitException e) {
-            fail("Unexpected error with adding unit");
+            fail("Unexcepted error with adding unit");
         }
-        assertEquals(board.removeItem(2, 4), null);
+
+        Item item2 = new Item("test item 2", 3, 5, board);
+        try {
+            board.addItem(item2);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
+
+        assertEquals(board.removeItem(3, 5), item2);
     }
 
     @Test

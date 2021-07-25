@@ -40,7 +40,7 @@ public class Board {
 
         if (removedUnit != null) {
             for (int i = 0; i < heroes.size(); i++) {
-                if (removedUnit.name.equals(heroes.get(i).getName())) {
+                if (removedUnit.getName().equals(heroes.get(i).getName())) {
                     removedHero = heroes.get(i);
                     heroes.remove(i);
                     this.tiles[row][column] = null;
@@ -60,7 +60,7 @@ public class Board {
 
         if (removedUnit != null) {
             for (int i = 0; i < items.size(); i++) {
-                if (removedUnit.name.equals(items.get(i).getName())) {
+                if (removedUnit.getName().equals(items.get(i).getName())) {
                     removedItem = items.get(i);
                     items.remove(i);
                     this.tiles[row][column] = null;
