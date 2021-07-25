@@ -41,7 +41,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testRemoveHero() {
+    public void testRemoveUnit() {
         List<String> alliances = new ArrayList<>();
         alliances.add("Vigilant");
         alliances.add("Knight");
@@ -52,30 +52,8 @@ public class BoardTest {
         } catch (AddUnitException e) {
             fail("Unexcepted error with adding unit");
         }
-        assertEquals(board.removeHero(2, 3), testUnit);
+        board.removeUnit(2, 3);
         assertEquals(board.getUnit(2, 3), null);
-    }
-
-    @Test
-    public void testRemoveHeroWithNoHero() {
-        assertEquals(board.removeHero(2, 3), null);
-    }
-
-    @Test
-    public void testRemoveItem() {
-        Item testItem = new Item("test", 2, 3, board);
-        try {
-            board.addItem(testItem);
-        } catch (AddUnitException e) {
-            fail("Unexpected error with adding unit");
-        }
-        assertEquals(board.removeItem(2, 3), testItem);
-        assertEquals(board.getUnit(2, 3), null);
-    }
-
-    @Test
-    public void testRemoveHeroWithNoItem() {
-        assertEquals(board.removeItem(2, 3), null);
     }
 
     @Test
