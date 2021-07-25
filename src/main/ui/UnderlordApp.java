@@ -1,7 +1,10 @@
 package ui;
 
+import exceptions.TileOccupiedException;
+import exceptions.UnitAlreadyOnBoardException;
 import model.Board;
 import model.Hero;
+import model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +19,8 @@ public class UnderlordApp {
     private Scanner input;
     private Board board;
     private List<String[]> possibleHeroes; // String[] format {name, ability, passive, tier,
-                                           //                  ability1, ability2, ability3}
-                                           // null if there is no ability, passive, or ability3
+                                           //                  alliance1, alliance2, alliance3}
+                                           // null if there is no ability, passive, or alliance3
 
     // EFFECTS: runs the Underlord application
     public UnderlordApp() {
@@ -58,11 +61,140 @@ public class UnderlordApp {
 
     private void displayMenu() {
         System.out.println("\nSelect from:");
-        System.out.println("\t");
+        System.out.println("\th -> View all possible heroes");
+        System.out.println("\tt -> View possible heroes by tier");
+        System.out.println("\tv -> View board");
+        System.out.println("\ta -> Add Hero");
     }
 
     private void processCommand(String command) {
+        if (command.equals("h")) {
+            doViewPossibleHeroes();
+        } else if (command.equals("t")) {
+            doViewPossibleHeroesByTier();
+        } else if (command.equals("v")) {
+            doViewBoard();
+        } else if (command.equals("a")) {
+            doAddHero();
+        } else {
+            System.out.println("Selection not valid...");
+        }
+    }
 
+    private void doAddHero() {
+        System.out.println("Select the number corresponding to the hero: ");
+        int possibleHeroesIndex = input.nextInt();
+        String[] heroInformation = possibleHeroes.get(possibleHeroesIndex - 1);
+        System.out.println("Please select the row to place it in (between 1 and " + Board.MAX_ROWS + " inclusive):");
+        int row = input.nextInt();
+        System.out.println("Please select the column to place it in (between 1 and " + Board.MAX_COLUMNS
+                + " inclusive):");
+        int column = input.nextInt();
+        List<String> alliances = new ArrayList<>();
+        for (int i = 4; i <= 6; i++) {
+            if (heroInformation[i] != null) {
+                alliances.add(heroInformation[i]);
+            }
+        }
+        Hero hero = new Hero(heroInformation[0], row - 1, column - 1, heroInformation[1], heroInformation[2],
+                Integer.parseInt(heroInformation[3]), alliances);
+        try {
+            board.addHero(hero);
+        } catch (TileOccupiedException e) {
+            System.out.println("The tile is already occupied");
+        } catch (UnitAlreadyOnBoardException e) {
+            System.out.println("The hero is already on the board");
+        }
+    }
+
+    private void doViewBoard() {
+        System.out.println("Key (used to read the board): ");
+
+        System.out.println("\tHeroes:");
+        if (board.getHeroes().size() == 0) {
+            System.out.println("\t\tNo heroes on the board");
+        } else {
+            List<Hero> heroes = board.getHeroes();
+            for (int i = 0; i < heroes.size(); i++) {
+                System.out.println("\t\t" + i + " - " + heroes.get(i).getName());
+            }
+        }
+
+        System.out.println("\tItems:");
+        if (board.getHeroes().size() == 0) {
+            System.out.println("\t\tNo items on the board");
+        } else {
+            List<Item> items = board.getItems();
+            for (int i = 0; i < items.size(); i++) {
+                System.out.println("\t\t" + i + " - " + items.get(i).getName());
+            }
+        }
+        System.out.println(board.toString());
+    }
+
+    private void doViewPossibleHeroes() {
+        System.out.println("Here are all the possible heroes:");
+        int counter = 1;
+        for (String[] heroInfo : possibleHeroes) {
+            System.out.println("\t" + counter + ") " + heroInfo[0]);
+            counter++;
+        }
+    }
+
+    private void doViewPossibleHeroesByTier() {
+        int currentTier = 1;
+        boolean keepGoing = true;
+        String command = null;
+
+        while (keepGoing) {
+            printHeroesBasedOnTier(currentTier);
+            displayHeroByTierMenu(currentTier);
+            command = input.nextLine();
+
+            if (command.equals("b")) {
+                keepGoing = false;
+            } else if (command.equals("p") && currentTier != 1) {
+                currentTier--;
+            } else if (command.equals("n") &&  currentTier != 5) {
+                currentTier++;
+            } else {
+                System.out.println("Selection not valid...");
+            }
+
+        }
+    }
+
+    private void displayHeroByTierMenu(int tier) {
+        System.out.println("\nSelect from:");
+        if (tier != 1) {
+            System.out.println("\tp -> Previous Tier");
+        }
+        if (tier != 5) {
+            System.out.println("\tn -> Next Tier");
+        }
+        System.out.println("\tb -> Return to Menu");
+    }
+
+    private void printHeroesBasedOnTier(int tier) {
+        System.out.println("Here are all the possible heroes that are tier " + tier + ":");
+
+        int counter;
+        if (tier == 1) {
+            counter = 1;
+        } else if (tier == 2) {
+            counter = 17;
+        } else if (tier == 3) {
+            counter = 31;
+        } else if (tier == 4) {
+            counter = 44;
+        } else {
+            counter = 56;
+        }
+
+        while (counter <= possibleHeroes.size() && Integer.parseInt(possibleHeroes.get(counter - 1)[3]) == tier) {
+            System.out.println("\t" + counter + ") " + possibleHeroes.get(counter - 1)[0]);
+            counter++;
+        }
     }
 
     private void setUpTier1Heroes() {
@@ -137,7 +269,7 @@ public class UnderlordApp {
                 "Assassin"});
         possibleHeroes.add(new String[]{"Tidehunter", "Ravage", null, "4", "Scaled", "Warrior", null});
         possibleHeroes.add(new String[]{"Viper", "Nethertoxin", "Corrosive Skin", "4", "Dragon", "Poisoner", null});
-        possibleHeroes.add(new String[]{"Void Spirit", "Dissimilate", "Void Elemental", "Void", "Spirit", null});
+        possibleHeroes.add(new String[]{"Void Spirit", "Dissimilate", "Void Elemental", "4", "Void", "Spirit", null});
     }
 
     private void setUpTier5Heroes() {
@@ -147,7 +279,8 @@ public class UnderlordApp {
         possibleHeroes.add(new String[]{"Keeper of the Light", "Illuminate", null, "5", "Human", "Mage", null});
         possibleHeroes.add(new String[]{"Medusa", "Stone Gaze", "Split Shot", "5", "Scaled", "Hunter", null});
         possibleHeroes.add(new String[]{"Troll Warlord", null, "Fervor", "5", "Troll", "Warrior", null});
-        possibleHeroes.add(new String[]{"Wraith King", "Wraithfire Blast", "Raise Dead", "Fallen", "Swordsman", null});
+        possibleHeroes.add(new String[]{"Wraith King", "Wraithfire Blast", "Raise Dead", "5", "Fallen", "Swordsman",
+                null});
     }
 
 }

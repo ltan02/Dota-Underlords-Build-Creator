@@ -1,5 +1,8 @@
 package model;
 
+import exceptions.AddUnitException;
+import exceptions.TileOccupiedException;
+import exceptions.UnitAlreadyOnBoardException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +27,11 @@ public class BoardTest {
         alliances.add("Knight");
         Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addHero(testUnit));
+        try {
+            board.addHero(testUnit);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
         assertEquals(board.getUnit(2, 3), testUnit);
     }
 
@@ -40,7 +47,11 @@ public class BoardTest {
         alliances.add("Knight");
         Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addHero(testUnit));
+        try {
+            board.addHero(testUnit);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
         assertEquals(board.removeUnit(2, 3), testUnit);
         assertEquals(board.getUnit(2, 3), null);
     }
@@ -52,7 +63,13 @@ public class BoardTest {
         alliances.add("Knight");
         Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addHero(testUnit));
+        try {
+            board.addHero(testUnit);
+        } catch (TileOccupiedException e) {
+            fail("Caught TileOccupiedException");
+        } catch (UnitAlreadyOnBoardException e) {
+            fail("Caught UnitAlreadyOnBoardException");
+        }
     }
 
     @Test
@@ -62,8 +79,23 @@ public class BoardTest {
         alliances.add("Knight");
         Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addHero(testUnit));
-        assertFalse(board.addHero(testUnit));
+
+        try {
+            board.addHero(testUnit);
+        } catch (TileOccupiedException e) {
+            fail("Caught TileOccupiedException");
+        } catch (UnitAlreadyOnBoardException e) {
+            fail("Caught UnitAlreadyOnBoardException");
+        }
+
+        try {
+            board.addHero(testUnit);
+            fail("No exception was thrown");
+        } catch (TileOccupiedException e) {
+            // do nothing
+        } catch (UnitAlreadyOnBoardException e) {
+            fail("Caught UnitAlreadyOnBoardException");
+        }
     }
 
     @Test
@@ -73,32 +105,78 @@ public class BoardTest {
         alliances.add("Knight");
         Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addHero(testUnit));
+        try {
+            board.addHero(testUnit);
+        } catch (TileOccupiedException e) {
+            fail("Caught TileOccupiedException");
+        } catch (UnitAlreadyOnBoardException e) {
+            fail("Caught UnitAlreadyOnBoardException");
+        }
 
         Hero testUnitDuplicate = new Hero("test", 3, 5, "test ability", "test passive",
                 2, alliances);
-        assertFalse(board.addHero(testUnitDuplicate));
+        try {
+            board.addHero(testUnitDuplicate);
+            fail("No exception was thrown");
+        } catch (TileOccupiedException e) {
+            fail("Caught TileOccupiedException");
+        } catch (UnitAlreadyOnBoardException e) {
+            // do nothing
+        }
     }
     @Test
     public void testAddItemSuccessful() {
         Item testUnit = new Item("test", 2, 3);
-        assertTrue(board.addItem(testUnit));
+        try {
+            board.addItem(testUnit);
+        } catch (TileOccupiedException e) {
+            fail("Caught TileOccupiedException");
+        } catch (UnitAlreadyOnBoardException e) {
+            fail("Caught UnitAlreadyOnBoardException");
+        }
     }
 
     @Test
     public void testAddItemFailureAlreadyOccupied() {
         Item testUnit = new Item("test", 2, 3);
-        assertTrue(board.addItem(testUnit));
-        assertFalse(board.addItem(testUnit));
+        try {
+            board.addItem(testUnit);
+        } catch (TileOccupiedException e) {
+            fail("Caught TileOccupiedException");
+        } catch (UnitAlreadyOnBoardException e) {
+            fail("Caught UnitAlreadyOnBoardException");
+        }
+
+        try {
+            board.addItem(testUnit);
+            fail("No exception was thrown");
+        } catch (TileOccupiedException e) {
+            // do nothing
+        } catch (UnitAlreadyOnBoardException e) {
+            fail("Caught UnitAlreadyOnBoardException");
+        }
     }
 
     @Test
     public void testAddItemFailureDuplicate() {
         Item testUnit = new Item("test", 2, 3);
-        assertTrue(board.addItem(testUnit));
+        try {
+            board.addItem(testUnit);
+        } catch (TileOccupiedException e) {
+            fail("Caught TileOccupiedException");
+        } catch (UnitAlreadyOnBoardException e) {
+            fail("Caught UnitAlreadyOnBoardException");
+        }
 
         Item testUnitDuplicate = new Item("test", 3, 5);
-        assertFalse(board.addItem(testUnitDuplicate));
+        try {
+            board.addItem(testUnitDuplicate);
+            fail("No exception was thrown");
+        } catch (TileOccupiedException e) {
+            fail("Caught TileOccupiedException");
+        } catch (UnitAlreadyOnBoardException e) {
+            // do nothing
+        }
     }
 
     @Test
@@ -113,7 +191,11 @@ public class BoardTest {
         alliances.add("Knight");
         Hero testUnit = new Hero("test", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addHero(testUnit));
+        try {
+            board.addHero(testUnit);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> receivedAlliances = board.getAlliances();
         assertEquals(receivedAlliances.size(), 2);
@@ -128,14 +210,22 @@ public class BoardTest {
         alliances1.add("Knight");
         Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addHero(luna));
+        try {
+            board.addHero(luna);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Troll");
         alliances2.add("Knight");
         Hero batrider = new Hero("Batrider", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addHero(batrider));
+        try {
+            board.addHero(batrider);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> receivedAlliances = board.getAlliances();
         assertEquals(receivedAlliances.size(), 3);
@@ -151,14 +241,22 @@ public class BoardTest {
         alliances1.add("Knight");
         Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addHero(luna));
+        try {
+            board.addHero(luna);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
         Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addHero(bristle));
+        try {
+            board.addHero(bristle);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> receivedAlliances = board.getAlliances();
         assertEquals(receivedAlliances.size(), 4);
@@ -175,7 +273,11 @@ public class BoardTest {
         for(int i = 0; i < Board.MAX_HEROES; i++) {
             Hero testUnit = new Hero("test" + i, row, column, "test ability", "test passive",
                     1, null);
-            assertTrue(board.addHero(testUnit));
+            try {
+                board.addHero(testUnit);
+            } catch (AddUnitException e) {
+                fail("Unexcepted error with adding unit");
+            }
             column++;
             if (column == Board.MAX_COLUMNS) {
                 row++;
@@ -197,7 +299,11 @@ public class BoardTest {
         int column = 0;
         for(int i = 0; i < Board.MAX_ITEMS; i++) {
             Item testUnit = new Item("test" + i, row, column);
-            assertTrue(board.addItem(testUnit));
+            try {
+                board.addItem(testUnit);
+            } catch (AddUnitException e) {
+                fail("Unexcepted error with adding unit");
+            }
             if (column == Board.MAX_COLUMNS) {
                 row++;
                 column = 0;
@@ -234,7 +340,11 @@ public class BoardTest {
         Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
 
-        assertTrue(board.addHero(luna));
+        try {
+            board.addHero(luna);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
         tiles[2][3] = luna;
 
         List<String> alliances2 = new ArrayList<>();
@@ -243,7 +353,11 @@ public class BoardTest {
         Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
 
-        assertTrue(board.addHero(bristle));
+        try {
+            board.addHero(bristle);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
         tiles[3][5] = bristle;
 
         Placeable[][] receivedTiles = board.getTiles();
@@ -267,7 +381,11 @@ public class BoardTest {
         alliances.add("Knight");
         Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances);
-        assertTrue(board.addHero(luna));
+        try {
+            board.addHero(luna);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<Hero> heroes = board.getHeroes();
         assertEquals(heroes.size(), 1);
@@ -281,14 +399,22 @@ public class BoardTest {
         alliances1.add("Knight");
         Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addHero(luna));
+        try {
+            board.addHero(luna);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
         Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addHero(bristle));
+        try {
+            board.addHero(bristle);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<Hero> heroes = board.getHeroes();
         assertEquals(heroes.size(), 2);
@@ -304,7 +430,11 @@ public class BoardTest {
     @Test
     public void testGetItemsOne() {
         Item item1 = new Item("test item", 2, 3);
-        assertTrue(board.addItem(item1));
+        try {
+            board.addItem(item1);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<Item> items = board.getItems();
         assertEquals(items.size(), 1);
@@ -314,10 +444,18 @@ public class BoardTest {
     @Test
     public void testGetItemsMany() {
         Item item1 = new Item("test item", 2, 3);
-        assertTrue(board.addItem(item1));
+        try {
+            board.addItem(item1);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         Item item2 = new Item("test item 2", 3, 5);
-        assertTrue(board.addItem(item2));
+        try {
+            board.addItem(item2);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<Item> items = board.getItems();
         assertEquals(items.size(), 2);
@@ -341,7 +479,11 @@ public class BoardTest {
         alliances1.add("Knight");
         Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addHero(luna));
+        try {
+            board.addHero(luna);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         String boardString = "x x x x x x x x \n" +
                 "x x x x x x x x \n" +
@@ -357,14 +499,22 @@ public class BoardTest {
         alliances1.add("Knight");
         Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addHero(luna));
+        try {
+            board.addHero(luna);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
         Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addHero(bristle));
+        try {
+            board.addHero(bristle);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         String boardString = "x x x x x x x x \n" +
                 "x x x x x x x x \n" +
@@ -376,21 +526,33 @@ public class BoardTest {
     @Test
     public void testToStringMultipleHeroesAndItems() {
         Item item1 = new Item("Barricade", 0, 1);
-        assertTrue(board.addItem(item1));
+        try {
+            board.addItem(item1);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> alliances1 = new ArrayList<>();
         alliances1.add("Vigilant");
         alliances1.add("Knight");
         Hero luna = new Hero("Luna", 2, 3, "test ability", "test passive",
                 2, alliances1);
-        assertTrue(board.addHero(luna));
+        try {
+            board.addHero(luna);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         List<String> alliances2 = new ArrayList<>();
         alliances2.add("Brawny");
         alliances2.add("Savage");
         Hero bristle = new Hero("Bristle", 3, 5, "test ability", "test passive",
                 2, alliances2);
-        assertTrue(board.addHero(bristle));
+        try {
+            board.addHero(bristle);
+        } catch (AddUnitException e) {
+            fail("Unexcepted error with adding unit");
+        }
 
         String boardString = "x b x x x x x x \n" +
                 "x x x x x x x x \n" +

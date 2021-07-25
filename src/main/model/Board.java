@@ -1,5 +1,8 @@
 package model;
 
+import exceptions.TileOccupiedException;
+import exceptions.UnitAlreadyOnBoardException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,35 +41,29 @@ public class Board {
         return removedUnit;
     }
 
-    // REQUIRES: Hero is not null
     // MODIFIES: this
-    // EFFECTS: returns true if it adds the hero to the board at the given row and column, otherwise returns false
-    //          if the tile is already occupied or the hero is already on the board
-    public boolean addHero(Hero hero) {
+    // EFFECTS: adds the hero to the board at the given row and column
+    public void addHero(Hero hero) throws TileOccupiedException, UnitAlreadyOnBoardException {
         if (this.tiles[hero.getRow()][hero.getColumn()] != null) {
-            return false;
+            throw new TileOccupiedException();
         } else if (!inHeroes(hero)) {
-            return false;
+            throw new UnitAlreadyOnBoardException();
         } else {
             this.tiles[hero.getRow()][hero.getColumn()] = hero;
             this.heroes.add(hero);
-            return true;
         }
     }
 
-    // REQUIRES: Item is not null
     // MODIFIES: this
-    // EFFECTS: returns true if it adds the item to the board at the given row and column, otherwise returns false
-    //          if the tile is already occupied or the item is already on the board
-    public boolean addItem(Item item) {
+    // EFFECTS: adds the item to the board at the given row and column
+    public void addItem(Item item) throws TileOccupiedException, UnitAlreadyOnBoardException {
         if (this.tiles[item.getRow()][item.getColumn()] != null) {
-            return false;
+            throw new TileOccupiedException();
         } else if (!inItems(item)) {
-            return false;
+            throw new UnitAlreadyOnBoardException();
         } else {
             this.tiles[item.getRow()][item.getColumn()] = item;
             this.items.add(item);
-            return true;
         }
     }
 
