@@ -386,7 +386,7 @@ public class UnderlordApp {
                 + " inclusive):");
         int column = input.nextInt();
         input.nextLine();
-        return new Item(itemName, row, column, board);
+        return new Item(itemName, row - 1, column - 1, board);
     }
 
     // EFFECTS: prints a list of all the items that the user can choose

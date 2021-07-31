@@ -31,3 +31,7 @@ enable me to practice using the Object-Oriented Programming (OOP) techniques and
  - As a user, I want to be able to move the items  
  - As a user, I want to be able to view the heroes and items on the board
  - As a user, I want to see the Alliances of my board
+ - As a user, I want to be able to save my board to file
+ - As a user, I want to be able to be reminded to save my board when quitting
+ - As a user, I want to be able to load my board from file
+ - As a user, I want to be able to get the option to load my board from file
