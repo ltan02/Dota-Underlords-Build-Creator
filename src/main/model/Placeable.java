@@ -1,19 +1,22 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
+import java.util.Objects;
+
 // Represents a placeable object on a board
-public class Placeable {
+public class Placeable implements Writable {
 
     protected String name;
     protected int row;
     protected int column;
-    protected Board bd;
 
     // EFFECTS: constructs a placeable object with a name, row, and column
-    public Placeable(String name, int row, int column, Board bd) {
+    public Placeable(String name, int row, int column) {
         this.name = name;
         this.row = row;
         this.column = column;
-        this.bd = bd;
     }
 
     // EFFECTS: returns the name
@@ -39,4 +42,12 @@ public class Placeable {
         this.column = newCol;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", this.name);
+        jsonObject.put("row", this.row);
+        jsonObject.put("column", this.column);
+        return jsonObject;
+    }
 }

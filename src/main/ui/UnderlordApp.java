@@ -1,11 +1,16 @@
 package ui;
 
+import exceptions.InvalidTileException;
 import exceptions.TileOccupiedException;
 import exceptions.UnitAlreadyOnBoardException;
 import model.Board;
 import model.Hero;
 import model.Item;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +20,10 @@ import java.util.Scanner;
 
 // Dota Underlord Application
 public class UnderlordApp {
+
+    private static final String JSON_STORE = "./data/json/board.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     private Scanner input;
     private Board board;
@@ -34,7 +43,11 @@ public class UnderlordApp {
         boolean keepGoing = true;
         String command;
 
-        init();
+        try {
+            init();
+        } catch (FileNotFoundException e) {
+            System.err.println("Unable to run application: file not found");
+        }
 
         while (keepGoing) {
             displayMenu();
@@ -53,9 +66,11 @@ public class UnderlordApp {
 
     // MODIFIES: this
     // EFFECTS: initializes the UnderlordApp
-    private void init() {
+    private void init() throws FileNotFoundException {
         input = new Scanner(System.in);
         board = new Board();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         possibleHeroes = new ArrayList<>();
         possibleItems = new ArrayList<>();
         setUpTier1Heroes();
@@ -71,12 +86,14 @@ public class UnderlordApp {
         System.out.println("\nSelect from:");
         System.out.println("\th -> View all possible heroes");
         System.out.println("\tt -> View possible heroes by tier");
-        System.out.println("\ts -> View hero information");
+        System.out.println("\tv -> View hero information");
         System.out.println("\ti -> View possible items");
-        System.out.println("\tv -> View board");
+        System.out.println("\tb -> View board");
         System.out.println("\ta -> Add Unit");
         System.out.println("\tr -> Remove Unit");
         System.out.println("\tm -> Move Unit");
+        System.out.println("\ts -> Save Board");
+        System.out.println("\tl -> Load Board");
         System.out.println("\tq -> Quit Application");
     }
 
@@ -84,15 +101,14 @@ public class UnderlordApp {
     // EFFECTS: processes user command
     private void processCommand(String command) {
         if (command.equals("h")) {
-            System.out.println("Here are all the possible heroes:");
             doViewPossibleHeroes();
         } else if (command.equals("t")) {
             doViewPossibleHeroesByTier();
-        } else if (command.equals("s")) {
+        } else if (command.equals("v")) {
             doHeroInformation();
         } else if (command.equals("i")) {
             doViewItems();
-        } else if (command.equals("v")) {
+        } else if (command.equals("b")) {
             doViewBoard();
         } else if (command.equals("a")) {
             doAddUnit();
@@ -100,6 +116,10 @@ public class UnderlordApp {
             doRemoveUnit();
         } else if (command.equals("m")) {
             doMoveUnit();
+        } else if (command.equals("s")) {
+            saveBoard();
+        } else if (command.equals("l")) {
+            loadBoard();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -160,12 +180,7 @@ public class UnderlordApp {
         if (board.getHeroes().size() == 0 && board.getItems().size() == 0) {
             System.out.println("There are no heroes and items to move");
         } else {
-            int command;
-            do {
-                System.out.println("Select if you want to move a hero (1) or an item (2): ");
-                command = input.nextInt();
-                input.nextLine();
-            } while (command != 1 && command != 2);
+            int command = getInputHeroOrItem();
             if (command == 1) {
                 if (board.getHeroes().size() == 0) {
                     System.out.println("There are no heroes to move");
@@ -244,12 +259,7 @@ public class UnderlordApp {
         if (board.getHeroes().size() == 0 && board.getItems().size() == 0) {
             System.out.println("There are no heroes and items to remove");
         } else {
-            int command;
-            do {
-                System.out.println("Select if you want to remove a hero (1) or an item (2): ");
-                command = input.nextInt();
-                input.nextLine();
-            } while (command != 1 && command != 2);
+            int command = getInputHeroOrItem();
             if (command == 1) {
                 if (board.getHeroes().size() == 0) {
                     System.out.println("There are no heroes to remove");
@@ -266,6 +276,17 @@ public class UnderlordApp {
         }
     }
 
+    // EFFECTS: returns whether the user chooses hero or item
+    private int getInputHeroOrItem() {
+        int command;
+        do {
+            System.out.println("Select if you want to remove a hero (1) or an item (2): ");
+            command = input.nextInt();
+            input.nextLine();
+        } while (command != 1 && command != 2);
+        return command;
+    }
+
     // MODIFIES: this
     // EFFECTS: removes the chosen hero from the board
     private void removeHero() {
@@ -275,7 +296,11 @@ public class UnderlordApp {
         command = input.nextInt();
         input.nextLine();
         Hero hero = board.getHeroes().get(command - 1);
-        board.removeHero(hero.getRow(), hero.getColumn());
+        try {
+            board.removeHero(hero.getRow(), hero.getColumn());
+        } catch (InvalidTileException e) {
+            System.err.println("Hero is in invalid tile");
+        }
         doViewBoard();
     }
 
@@ -295,12 +320,7 @@ public class UnderlordApp {
     // MODIFIES: this
     // EFFECTS: processes the user's command on whether to add a hero or an item
     private void doAddUnit() {
-        int command;
-        do {
-            System.out.println("Select if you want to add a hero (1) or an item (2): ");
-            command = input.nextInt();
-            input.nextLine();
-        } while (command != 1 && command != 2);
+        int command = getInputHeroOrItem();
         if (command == 1) {
             doAddHero();
         } else {
@@ -314,7 +334,6 @@ public class UnderlordApp {
         if (board.isFullHeroes()) {
             System.out.println("The board is already full");
         } else {
-            System.out.println("Here are all the possible heroes:");
             doViewPossibleHeroes();
             System.out.println("Select the number corresponding to the hero: ");
             int possibleHeroesIndex = input.nextInt();
@@ -348,7 +367,7 @@ public class UnderlordApp {
                 alliances.add(heroInformation[i]);
             }
         }
-        return new Hero(heroInformation[0], row - 1, column - 1, board, heroInformation[1],
+        return new Hero(heroInformation[0], row - 1, column - 1, heroInformation[1],
                 heroInformation[2], Integer.parseInt(heroInformation[3]), alliances);
     }
 
@@ -386,7 +405,7 @@ public class UnderlordApp {
                 + " inclusive):");
         int column = input.nextInt();
         input.nextLine();
-        return new Item(itemName, row - 1, column - 1, board);
+        return new Item(itemName, row - 1, column - 1);
     }
 
     // EFFECTS: prints a list of all the items that the user can choose
@@ -429,6 +448,7 @@ public class UnderlordApp {
 
     // EFFECTS: prints out all the possible heroes that can be chosen
     private void doViewPossibleHeroes() {
+        System.out.println("Here are all the possible heroes:");
         int counter = 1;
         for (String[] heroInfo : possibleHeroes) {
             System.out.println("\t" + counter + ") " + heroInfo[0]);
@@ -491,6 +511,32 @@ public class UnderlordApp {
         while (counter <= possibleHeroes.size() && Integer.parseInt(possibleHeroes.get(counter - 1)[3]) == tier) {
             System.out.println("\t" + counter + ") " + possibleHeroes.get(counter - 1)[0]);
             counter++;
+        }
+    }
+
+    // EFFECTS: saves the board to file
+    private void saveBoard() {
+        try {
+            System.out.println("Please enter a name for the board: ");
+            board.setBoardName(input.nextLine());
+
+            jsonWriter.open();
+            jsonWriter.write(board);
+            jsonWriter.close();
+            System.out.println("Saved " + board.getBoardName() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads board from file
+    private void loadBoard() {
+        try {
+            board = jsonReader.read();
+            System.out.println("Loaded " + board.getBoardName() + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 

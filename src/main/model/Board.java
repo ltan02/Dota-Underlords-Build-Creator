@@ -1,13 +1,19 @@
 package model;
 
+import exceptions.InvalidColumnException;
+import exceptions.InvalidRowException;
 import exceptions.TileOccupiedException;
 import exceptions.UnitAlreadyOnBoardException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.omg.CORBA.DynAnyPackage.Invalid;
+import persistence.Writable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // Represents a Dota Underlords board
-public class Board {
+public class Board implements Writable {
 
     public static final int MAX_HEROES = 10;
     public static final int MAX_ITEMS = 3;
@@ -17,24 +23,43 @@ public class Board {
     private Placeable[][] tiles;
     private List<Hero> heroes;
     private List<Item> items;
+    private String boardName;
 
     // EFFECTS: creates a Board object with empty tiles
     public Board() {
         this.tiles = new Placeable[MAX_ROWS][MAX_COLUMNS];
         this.heroes = new ArrayList<>();
         this.items = new ArrayList<>();
+        this.boardName = "";
     }
 
-    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7
+    // EFFECTS: creates a Board object with empty tiles and with a name
+    public Board(String name, Placeable[][] tiles) {
+        this.boardName = name;
+        this.tiles = tiles;
+        this.heroes = new ArrayList<>();
+        this.items = new ArrayList<>();
+    }
+
     // EFFECTS: returns the unit at the given row and column
-    public Placeable getUnit(int row, int column) {
+    public Placeable getUnit(int row, int column) throws InvalidColumnException, InvalidRowException {
+        if (row < 0 || row > 3) {
+            throw new InvalidRowException();
+        } else if (column < 0 || column > 7) {
+            throw new InvalidColumnException();
+        }
         return this.tiles[row][column];
     }
 
-    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7
     // MODIFIES: this
     // EFFECTS: returns and removes the hero at the given row and column
-    public Hero removeHero(int row, int column) {
+    public Hero removeHero(int row, int column) throws InvalidColumnException, InvalidRowException {
+        if (row < 0 || row > 3) {
+            throw new InvalidRowException();
+        } else if (column < 0 || column > 7) {
+            throw new InvalidColumnException();
+        }
+
         Placeable removedUnit = this.tiles[row][column];
         Hero removedHero = null;
 
@@ -145,6 +170,16 @@ public class Board {
         return this.items;
     }
 
+    // EFFECTS: returns the name of the board
+    public String getBoardName() {
+        return this.boardName;
+    }
+
+    // EFFECTS: sets the name of the board to the given name
+    public void setBoardName(String name) {
+        this.boardName = name;
+    }
+
     // EFFECTS: returns a String version of the tiles on the board
     @Override
     public String toString() {
@@ -185,4 +220,41 @@ public class Board {
         return true;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds heroes and items on the board into their respective list
+    public void setUpUnits() {
+        for (Placeable[] row : tiles) {
+            for (Placeable unit : row) {
+                if (unit instanceof Hero) {
+                    heroes.add((Hero) unit);
+                } else if (unit instanceof Item) {
+                    items.add((Item) unit);
+                }
+            }
+        }
+    }
+
+    // EFFECTS: returns name and units on the board as jsonObject
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", this.boardName);
+        json.put("units", unitsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns units on the board as jsonArray
+    private JSONArray unitsToJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (Placeable[] row : tiles) {
+            for (Placeable unit : row) {
+                if (unit == null) {
+                    jsonArray.put("null");
+                } else {
+                    jsonArray.put(unit.toJson());
+                }
+            }
+        }
+        return jsonArray;
+    }
 }
