@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Test methods taken from JsonSerializationDemo. Code was taken from here:
-// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo/blob/master/src/test/persistence/JsonReaderTest.java#L14
+// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo/blob/master/src/test/persistence/JsonReaderTest.java
 
 public class JsonReaderTest extends JsonTest {
 
@@ -70,7 +70,7 @@ public class JsonReaderTest extends JsonTest {
         List<Hero> heroes = b.getHeroes();
         assertEquals(2, heroes.size());
         checkHero((Hero) b.getTiles()[0][4], "Batrider", 0, 4, "Sticky Napalm", null, 1, alliances2);
-        checkHero((Hero) b.getTiles()[1][3], "Slark", 1, 3, "Pounce", "Essence Shift", 3, alliances1);
+        checkHero((Hero) b.getTiles()[1][3], "Slark", 1, 3, null, "Essence Shift", 3, alliances1);
         assertEquals(4, b.getAlliances().size());
         assertTrue(b.getAlliances().contains("Scaled"));
         assertTrue(b.getAlliances().contains("Assassin"));

@@ -51,9 +51,9 @@ public class Hero extends Placeable {
     public JSONObject toJson() {
         JSONObject jsonObject = super.toJson();
         if (this.ability == null) {
-            jsonObject.put("ability", this.ability);
-        } else {
             jsonObject.put("ability", "");
+        } else {
+            jsonObject.put("ability", this.ability);
         }
         if (this.passive == null) {
             jsonObject.put("passive", "");

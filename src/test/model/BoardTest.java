@@ -754,4 +754,11 @@ public class BoardTest {
         assertEquals(board.toString(), boardString);
     }
 
+    @Test
+    public void testSetBoardName() {
+        assertEquals("", board.getBoardName());
+        board.setBoardName("new name");
+        assertEquals("new name", board.getBoardName());
+    }
+
 }

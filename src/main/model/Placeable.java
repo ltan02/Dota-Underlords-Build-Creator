@@ -42,6 +42,7 @@ public class Placeable implements Writable {
         this.column = newCol;
     }
 
+    // EFFECTS: returns the fields as jsonObject
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();

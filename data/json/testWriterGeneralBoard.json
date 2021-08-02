@@ -1,0 +1,66 @@
+{
+    "name": "Test Board",
+    "units": [
+        "null",
+        "null",
+        "null",
+        "null",
+        {
+            "tier": 1,
+            "name": "Batrider",
+            "column": 4,
+            "alliances": [
+                "Troll",
+                "Knight"
+            ],
+            "row": 0,
+            "ability": "Sticky Napalm",
+            "type": "Hero",
+            "passive": ""
+        },
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        {
+            "tier": 3,
+            "name": "Slark",
+            "column": 3,
+            "alliances": [
+                "Scaled",
+                "Assassin"
+            ],
+            "row": 1,
+            "ability": "",
+            "type": "Hero",
+            "passive": "Essence Shift"
+        },
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        {
+            "name": "Target Buddy",
+            "column": 7,
+            "row": 3,
+            "type": "Item"
+        }
+    ]
+}

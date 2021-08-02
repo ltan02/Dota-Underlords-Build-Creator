@@ -33,7 +33,14 @@ public class Board implements Writable {
         this.boardName = "";
     }
 
-    // EFFECTS: creates a Board object with empty tiles and with a name
+    public Board(String name) {
+        this.boardName = name;
+        this.tiles = new Placeable[MAX_ROWS][MAX_COLUMNS];
+        this.heroes = new ArrayList<>();
+        this.items = new ArrayList<>();
+    }
+
+    // EFFECTS: creates a Board object with name and tiles
     public Board(String name, Placeable[][] tiles) {
         this.boardName = name;
         this.tiles = tiles;

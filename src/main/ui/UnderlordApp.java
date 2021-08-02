@@ -55,6 +55,7 @@ public class UnderlordApp {
             command = command.toLowerCase();
 
             if (command.equals("q")) {
+                doSaveBoardOption();
                 keepGoing = false;
             } else {
                 processCommand(command);
@@ -122,6 +123,15 @@ public class UnderlordApp {
             loadBoard();
         } else {
             System.out.println("Selection not valid...");
+        }
+    }
+
+    // EFFECTS: gives user the option to save board
+    private void doSaveBoardOption() {
+        System.out.println("Do you want to save your board before quitting? Yes (Y) or No (N)?");
+        String command = input.nextLine();
+        if (command.equalsIgnoreCase("Y")) {
+            saveBoard();
         }
     }
 
