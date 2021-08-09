@@ -23,7 +23,12 @@ public class Hero extends Placeable {
         this.ability = ability;
         this.passive = passive;
         this.tier = tier;
-        this.alliances = alliances;
+        this.alliances = new ArrayList<>();
+        for (String alliance : alliances) {
+            if (alliance != null) {
+                this.alliances.add(alliance);
+            }
+        }
     }
 
     // EFFECTS: returns the alliances of the hero

@@ -1,37 +1,41 @@
 {
     "name": "Test Board",
     "units": [
-        "null",
-        "null",
-        "null",
-        "null",
         {
             "tier": 1,
-            "name": "Batrider",
-            "column": 4,
+            "name": "Tusk",
+            "column": 0,
             "alliances": [
-                "Troll",
-                "Knight"
+                "Savage",
+                "Warrior"
             ],
             "row": 0,
-            "ability": "Sticky Napalm",
-            "type": "Hero"
+            "ability": "Walrus Punch!",
+            "type": "Hero",
+            "passive": ""
         },
-        "null",
-        "null",
-        "null",
-        "null",
-        "null",
-        "null",
+        {
+            "tier": 1,
+            "name": "Phantom Assassin",
+            "column": 1,
+            "alliances": [
+                "Assassin",
+                "Swordsman"
+            ],
+            "row": 0,
+            "ability": "",
+            "type": "Hero",
+            "passive": "Coup De Grace"
+        },
         {
             "tier": 3,
             "name": "Slark",
-            "column": 3,
+            "column": 2,
             "alliances": [
                 "Scaled",
                 "Assassin"
             ],
-            "row": 1,
+            "row": 0,
             "ability": "Pounce",
             "type": "Hero",
             "passive": "Essence Shift"
@@ -44,9 +48,19 @@
         "null",
         "null",
         "null",
-        "null",
-        "null",
-        "null",
+        {
+            "tier": 1,
+            "name": "Bounty Hunter",
+            "column": 3,
+            "alliances": [
+                "Rogue",
+                "Assassin"
+            ],
+            "row": 1,
+            "ability": "Shuriken Toss",
+            "type": "Hero",
+            "passive": ""
+        },
         "null",
         "null",
         "null",
@@ -56,10 +70,21 @@
         "null",
         "null",
         {
-            "name": "Target Buddy",
-            "column": 7,
-            "row": 3,
+            "name": "Barricade",
+            "column": 4,
+            "row": 2,
             "type": "Item"
-        }
+        },
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null"
     ]
 }

@@ -465,7 +465,7 @@ public class BoardTest {
         int column = 0;
         for(int i = 0; i < Board.MAX_HEROES; i++) {
             Hero testUnit = new Hero("test" + i, row, column, "test ability", "test passive",
-                    1, null);
+                    1, new ArrayList<>());
             try {
                 board.addHero(testUnit);
             } catch (AddUnitException e) {
