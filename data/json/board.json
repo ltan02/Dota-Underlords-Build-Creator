@@ -40,9 +40,48 @@
             "type": "Hero",
             "passive": "Essence Shift"
         },
-        "null",
-        "null",
-        "null",
+        {
+            "tier": 2,
+            "name": "Earth Spirit",
+            "column": 3,
+            "alliances": [
+                "Spirit",
+                "Warrior",
+                null
+            ],
+            "row": 0,
+            "ability": "Geomagnetic Grip",
+            "type": "Hero",
+            "passive": "Earth Elemental"
+        },
+        {
+            "tier": 1,
+            "name": "Drow Ranger",
+            "column": 4,
+            "alliances": [
+                "Heartless",
+                "Vigilant",
+                "Hunter"
+            ],
+            "row": 0,
+            "ability": "",
+            "type": "Hero",
+            "passive": "Precision Aura"
+        },
+        {
+            "tier": 1,
+            "name": "Slardar",
+            "column": 5,
+            "alliances": [
+                "Scaled",
+                "Warrior",
+                null
+            ],
+            "row": 0,
+            "ability": "Corrosive Haze",
+            "type": "Hero",
+            "passive": ""
+        },
         "null",
         "null",
         "null",
