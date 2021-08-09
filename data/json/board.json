@@ -1,102 +1,30 @@
 {
     "name": "Test Board",
     "units": [
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
         {
-            "tier": 1,
-            "name": "Tusk",
-            "column": 0,
-            "alliances": [
-                "Savage",
-                "Warrior"
-            ],
+            "name": "Mango Tree",
+            "column": 7,
             "row": 0,
-            "ability": "Walrus Punch!",
-            "type": "Hero",
-            "passive": ""
+            "type": "Item"
         },
+        "null",
         {
             "tier": 1,
-            "name": "Phantom Assassin",
+            "name": "Enchantress",
             "column": 1,
             "alliances": [
-                "Assassin",
-                "Swordsman"
-            ],
-            "row": 0,
-            "ability": "",
-            "type": "Hero",
-            "passive": "Coup De Grace"
-        },
-        {
-            "tier": 3,
-            "name": "Slark",
-            "column": 2,
-            "alliances": [
-                "Scaled",
-                "Assassin"
-            ],
-            "row": 0,
-            "ability": "Pounce",
-            "type": "Hero",
-            "passive": "Essence Shift"
-        },
-        {
-            "tier": 2,
-            "name": "Earth Spirit",
-            "column": 3,
-            "alliances": [
-                "Spirit",
-                "Warrior",
-                null
-            ],
-            "row": 0,
-            "ability": "Geomagnetic Grip",
-            "type": "Hero",
-            "passive": "Earth Elemental"
-        },
-        {
-            "tier": 1,
-            "name": "Drow Ranger",
-            "column": 4,
-            "alliances": [
-                "Heartless",
-                "Vigilant",
-                "Hunter"
-            ],
-            "row": 0,
-            "ability": "",
-            "type": "Hero",
-            "passive": "Precision Aura"
-        },
-        {
-            "tier": 1,
-            "name": "Slardar",
-            "column": 5,
-            "alliances": [
-                "Scaled",
-                "Warrior",
-                null
-            ],
-            "row": 0,
-            "ability": "Corrosive Haze",
-            "type": "Hero",
-            "passive": ""
-        },
-        "null",
-        "null",
-        "null",
-        "null",
-        "null",
-        {
-            "tier": 1,
-            "name": "Bounty Hunter",
-            "column": 3,
-            "alliances": [
-                "Rogue",
-                "Assassin"
+                "Shaman",
+                "Healer"
             ],
             "row": 1,
-            "ability": "Shuriken Toss",
+            "ability": "Nature's Attendants",
             "type": "Hero",
             "passive": ""
         },
@@ -109,10 +37,31 @@
         "null",
         "null",
         {
-            "name": "Barricade",
-            "column": 4,
+            "tier": 2,
+            "name": "Juggernaut",
+            "column": 2,
+            "alliances": [
+                "Brawny",
+                "Swordsman"
+            ],
             "row": 2,
-            "type": "Item"
+            "ability": "Blade Fury",
+            "type": "Hero",
+            "passive": ""
+        },
+        "null",
+        {
+            "tier": 5,
+            "name": "Wraith King",
+            "column": 4,
+            "alliances": [
+                "Fallen",
+                "Swordsman"
+            ],
+            "row": 2,
+            "ability": "Wraithfire Blast",
+            "type": "Hero",
+            "passive": "Raise Dead"
         },
         "null",
         "null",

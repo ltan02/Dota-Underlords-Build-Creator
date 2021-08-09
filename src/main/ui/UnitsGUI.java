@@ -90,7 +90,9 @@ public class UnitsGUI extends JFrame implements ActionListener {
         List<String> alliances = new ArrayList<>();
         alliances.add(information[4]);
         alliances.add(information[5]);
-        alliances.add(information[6]);
+        if (information[6] != null) {
+            alliances.add(information[6]);
+        }
         try {
             board.addHero(new Hero(information[0], row, column, information[1], information[2],
                         Integer.parseInt(information[3]), alliances));
