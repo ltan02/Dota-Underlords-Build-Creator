@@ -39,7 +39,11 @@ public class RemoveUnitAction implements ActionListener {
                 }
             } else {
                 Item item = (Item) unitSelected;
-                board.removeItem(item.getRow(), item.getColumn());
+                try {
+                    board.removeItem(item.getRow(), item.getColumn());
+                } catch (InvalidColumnException | InvalidRowException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
         underlordGui.setSelectedUnit(null);

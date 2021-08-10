@@ -190,7 +190,11 @@ public class BoardTest {
         } catch (AddUnitException e) {
             fail("Unexpected error with adding unit");
         }
-        assertEquals(board.removeItem(2, 3), testItem);
+        try {
+            assertEquals(board.removeItem(2, 3), testItem);
+        } catch (InvalidTileException e) {
+            fail("Unexpected InvalidTileException");
+        }
         try {
             assertEquals(board.getUnit(2, 3), null);
         } catch (InvalidTileException e) {
@@ -200,7 +204,51 @@ public class BoardTest {
 
     @Test
     public void testRemoveItemWithNoItems() {
-        assertEquals(board.removeItem(2, 3), null);
+        try {
+            assertEquals(board.removeItem(2, 3), null);
+        } catch (InvalidTileException e) {
+            fail("Unexpected InvalidTileException");
+        }
+    }
+
+    @Test
+    public void testRemoveItemInvalidRow() {
+        try {
+            assertEquals(board.removeItem(-1, 3), null);
+            fail("Expected InvalidRowException");
+        } catch (InvalidRowException e) {
+            // do nothing
+        } catch (InvalidColumnException e) {
+            fail("Unexpected InvalidColumnException");
+        }
+        try {
+            assertEquals(board.removeItem(4, 3), null);
+            fail("Expected InvalidRowException");
+        } catch (InvalidRowException e) {
+            // do nothing
+        } catch (InvalidColumnException e) {
+            fail("Unexpected InvalidColumnException");
+        }
+    }
+
+    @Test
+    public void testRemoveItemInvalidColumn() {
+        try {
+            assertEquals(board.removeItem(2, -1), null);
+            fail("Expected InvalidRowException");
+        } catch (InvalidColumnException e) {
+            // do nothing
+        } catch (InvalidRowException e) {
+            fail("Unexpected InvalidRowException");
+        }
+        try {
+            assertEquals(board.removeItem(2, 8), null);
+            fail("Expected InvalidRowException");
+        } catch (InvalidColumnException e) {
+            // do nothing
+        } catch (InvalidRowException e) {
+            fail("Unexpected InvalidRowException");
+        }
     }
 
     @Test
@@ -219,7 +267,11 @@ public class BoardTest {
             fail("Unexcepted error with adding unit");
         }
 
-        assertEquals(board.removeItem(3, 5), item2);
+        try {
+            assertEquals(board.removeItem(3, 5), item2);
+        } catch (InvalidTileException e) {
+            fail("Unexpected InvalidTileException");
+        }
     }
 
     @Test
@@ -235,8 +287,13 @@ public class BoardTest {
         } catch (InvalidTileException e) {
             fail("Unexpected InvalidTileException");
         }
-
-        board.moveUnit(testItem, 3, 5);
+        try {
+            board.moveUnit(testItem, 3, 5);
+        } catch (InvalidTileException e) {
+            fail("Unexpected InvalidTileException");
+        } catch (TileOccupiedException e) {
+            fail("Unexpected InvalidOccupiedException");
+        }
         try {
             assertEquals(board.getUnit(3, 5), testItem);
         } catch (InvalidTileException e) {
@@ -246,6 +303,88 @@ public class BoardTest {
             assertEquals(board.getUnit(2, 3), null);
         } catch (InvalidTileException e) {
             fail("Unexpected InvalidTileException");
+        }
+    }
+
+    @Test
+    public void testMoveUnitInvalidRow() {
+        Item testItem = new Item("test", 2, 3);
+        try {
+            board.addItem(testItem);
+        } catch (AddUnitException e) {
+            fail("Unexpected error with adding unit");
+        }
+        try {
+            board.moveUnit(testItem, -1, 5);
+            fail("Expected InvalidRowException");
+        } catch (InvalidRowException e) {
+            // do nothing
+        } catch (InvalidColumnException e) {
+            fail("Unexpected InvalidColumnException");
+        } catch (TileOccupiedException e) {
+            fail("Unexpected TileOccupiedException");
+        }
+        try {
+            board.moveUnit(testItem, 4, 5);
+            fail("Expected InvalidRowException");
+        } catch (InvalidRowException e) {
+            // do nothing
+        } catch (InvalidColumnException e) {
+            fail("Unexpected InvalidColumnException");
+        } catch (TileOccupiedException e) {
+            fail("Unexpected TileOccupiedException");
+        }
+    }
+
+    @Test
+    public void testMoveUnitInvalidColumn() {
+        Item testItem = new Item("test", 2, 3);
+        try {
+            board.addItem(testItem);
+        } catch (AddUnitException e) {
+            fail("Unexpected error with adding unit");
+        }
+        try {
+            board.moveUnit(testItem, 2, -1);
+            fail("Expected InvalidRowException");
+        } catch (InvalidColumnException e) {
+            // do nothing
+        } catch (InvalidRowException e) {
+            fail("Unexpected InvalidRowException");
+        } catch (TileOccupiedException e) {
+            fail("Unexpected TileOccupiedException");
+        }
+        try {
+            board.moveUnit(testItem, 2, 8);
+            fail("Expected InvalidRowException");
+        } catch (InvalidColumnException e) {
+            // do nothing
+        } catch (InvalidRowException e) {
+            fail("Unexpected InvalidRowException");
+        } catch (TileOccupiedException e) {
+            fail("Unexpected TileOccupiedException");
+        }
+    }
+
+    @Test
+    public void testMoveUnitTileOccupied() {
+        Item testItem = new Item("test", 2, 3);
+        Item otherTestItem = new Item("test2", 3, 5);
+        try {
+            board.addItem(testItem);
+            board.addItem(otherTestItem);
+        } catch (AddUnitException e) {
+            fail("Unexpected error with adding unit");
+        }
+        try {
+            board.moveUnit(testItem, 3, 5);
+            fail("Expected InvalidRowException");
+        } catch (InvalidColumnException e) {
+            fail("Unexpected InvalidColumnException");
+        } catch (InvalidRowException e) {
+            fail("Unexpected InvalidRowException");
+        } catch (TileOccupiedException e) {
+            // do nothing
         }
     }
 

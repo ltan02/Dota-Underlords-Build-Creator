@@ -35,3 +35,12 @@ enable me to practice using the Object-Oriented Programming (OOP) techniques and
  - As a user, I want to be able to be reminded to save my board when quitting
  - As a user, I want to be able to load my board from file
  - As a user, I want to be able to get the option to load my board from file
+
+## Phase 4: Task 2
+I made the Board class robust by adding exceptions to the methods that had a REQUIRES in the specification and also
+test for those exceptions in the BoardTest. The methods that has checked exceptions are the getUnit, addHero, addItem,
+removeHero, removeItem, and moveUnit. The main exception that is being checked by these methods is whether the given
+row and column are in the acceptable range (i.e. row is between 0 and 3 (inclusive) and column is between 0 and 7 
+(inclusive)). The addHero and addItem methods have an extra checked exception to see if the unit is already on the board
+or if the unit is being added to an occupied tile. The moveUnit method also has another checked exception to see if the
+tile that the unit will move to is already occupied.

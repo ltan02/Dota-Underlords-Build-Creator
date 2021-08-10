@@ -83,10 +83,14 @@ public class Board implements Writable {
         return removedHero;
     }
 
-    // REQUIRES: 0 <= row <= 3 and 0 <= column <= 7
     // MODIFIES: this
     // EFFECTS: returns and removes the item at the given row and column
-    public Item removeItem(int row, int column) {
+    public Item removeItem(int row, int column) throws InvalidColumnException, InvalidRowException {
+        if (column < 0 || column > 7) {
+            throw new InvalidColumnException();
+        } else if (row < 0 || row > 3) {
+            throw new InvalidRowException();
+        }
         Placeable removedUnit = this.tiles[row][column];
         Item removedItem = null;
 
@@ -103,10 +107,17 @@ public class Board implements Writable {
         return removedItem;
     }
 
-    // REQUIRES: 0 <= newRow <= 3 and 0 <= newCol <= 7 and there is no unit at that newRow and newCol
     // MODIFIES: this
     // EFFECTS: moves the unit to the new location at newRow, newCol
-    public void moveUnit(Placeable unit, int newRow, int newCol) {
+    public void moveUnit(Placeable unit, int newRow, int newCol) throws InvalidColumnException, InvalidRowException,
+            TileOccupiedException {
+        if (newCol < 0 || newCol > 7) {
+            throw new InvalidColumnException();
+        } else if (newRow < 0 || newRow > 3) {
+            throw new InvalidRowException();
+        } else if (tiles[newRow][newCol] != null) {
+            throw new TileOccupiedException();
+        }
         tiles[unit.getRow()][unit.getColumn()] = null;
         unit.move(newRow, newCol);
         tiles[newRow][newCol] = unit;

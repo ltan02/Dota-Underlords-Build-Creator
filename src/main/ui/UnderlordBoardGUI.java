@@ -1,5 +1,7 @@
 package ui;
 
+import exceptions.InvalidTileException;
+import exceptions.TileOccupiedException;
 import model.Board;
 import model.Placeable;
 import ui.actionhandler.*;
@@ -161,8 +163,12 @@ public class UnderlordBoardGUI extends JDialog implements MouseListener, MouseMo
     public void mousePressed(MouseEvent e) {
         int column = e.getX() / (BOARD_WIDTH / Board.MAX_COLUMNS);
         int row = (e.getY() - MENU_BAR_HEIGHT) / (BOARD_HEIGHT / Board.MAX_ROWS);
-        if (this.unitSelected && board.getTiles()[row][column] == null) {
-            this.board.moveUnit(this.selectedUnit, row, column);
+        if (this.unitSelected) {
+            try {
+                this.board.moveUnit(this.selectedUnit, row, column);
+            } catch (InvalidTileException | TileOccupiedException ex) {
+                ex.printStackTrace();
+            }
             this.unitSelected = false;
             this.selectedUnit = null;
         } else if (this.board.getTiles()[row][column] == null) {
