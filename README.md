@@ -44,3 +44,9 @@ row and column are in the acceptable range (i.e. row is between 0 and 3 (inclusi
 (inclusive)). The addHero and addItem methods have an extra checked exception to see if the unit is already on the board
 or if the unit is being added to an occupied tile. The moveUnit method also has another checked exception to see if the
 tile that the unit will move to is already occupied.
+
+## Phase 4: Task 3
+If I had more time to work on this project, I would refactor the Board class to remove the duplicated code for Heroes
+and Items. For example, there are methods for adding and removing heroes and items that essentially do similar tasks but
+are split into seperate methods. If I had more time, this would be the first thing I would change. Furthermore, I would 
+refactor the code such that there is less coupling between the UI classes and the Board class. 
