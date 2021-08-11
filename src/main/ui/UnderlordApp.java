@@ -558,11 +558,11 @@
 //        possibleHeroes.add(new String[]{"Bounty Hunter", "Shuriken Toss", null, "1", "Rogue", "Assassin", null});
 //        possibleHeroes.add(new String[]{"Crystal Maiden", "Frostbite", null, "1", "Human", "Mage", null});
 //        possibleHeroes.add(new String[]{"Dazzle", "Shadow Wave", null, "1", "Troll", "Healer", "Poisoner"});
-//        possibleHeroes.add(new String[]{"Drow Ranger", null, "Precision Aura", "1", "Heartless", "Vigilant", "Hunter"});
+//     possibleHeroes.add(new String[]{"Drow Ranger", null, "Precision Aura", "1", "Heartless", "Vigilant", "Hunter"});
 //        possibleHeroes.add(new String[]{"Enchantress", "Nature's Attendants", null, "1", "Shaman", "Healer", null});
 //        possibleHeroes.add(new String[]{"Lich", "Frost Shield", null, "1", "Fallen", "Mage", null});
 //        possibleHeroes.add(new String[]{"Magnus", "Empower", null, "1", "Savage", "Shaman", null});
-//        possibleHeroes.add(new String[]{"Phantom Assassin", null, "Coup De Grace", "1", "Assassin", "Swordsman", null});
+//     possibleHeroes.add(new String[]{"Phantom Assassin", null, "Coup De Grace", "1", "Assassin", "Swordsman", null});
 //        possibleHeroes.add(new String[]{"Shadow Demon", "Demonic Purge", null, "1", "Heartless", "Demon", null});
 //        possibleHeroes.add(new String[]{"Slardar", "Corrosive Haze", null, "1", "Scaled", "Warrior", null});
 //        possibleHeroes.add(new String[]{"Snapfire", "Ol'Scatterblast", null, "1", "Brawny", "Dragon", null});
