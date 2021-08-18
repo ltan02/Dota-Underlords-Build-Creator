@@ -1,69 +1,149 @@
 {
     "name": "Test Board",
     "units": [
-        "null",
-        "null",
-        "null",
-        "null",
-        "null",
-        "null",
-        "null",
-        {
-            "name": "Mango Tree",
-            "column": 7,
-            "row": 0,
-            "type": "Item"
-        },
-        "null",
         {
             "tier": 1,
-            "name": "Enchantress",
-            "column": 1,
+            "name": "Drow Ranger",
+            "column": 0,
             "alliances": [
-                "Shaman",
-                "Healer"
+                "Heartless",
+                "Vigilant",
+                "Hunter"
             ],
-            "row": 1,
-            "ability": "Nature's Attendants",
+            "row": 0,
+            "ability": "",
             "type": "Hero",
-            "passive": ""
+            "passive": "Precision Aura"
         },
-        "null",
-        "null",
-        "null",
-        "null",
-        "null",
-        "null",
         "null",
         "null",
         {
             "tier": 2,
             "name": "Juggernaut",
-            "column": 2,
+            "column": 3,
             "alliances": [
                 "Brawny",
                 "Swordsman"
             ],
-            "row": 2,
+            "row": 0,
             "ability": "Blade Fury",
             "type": "Hero",
             "passive": ""
         },
-        "null",
         {
-            "tier": 5,
-            "name": "Wraith King",
+            "tier": 2,
+            "name": "Meepo",
             "column": 4,
             "alliances": [
-                "Fallen",
-                "Swordsman"
+                "Rogue",
+                "Summoner"
             ],
-            "row": 2,
-            "ability": "Wraithfire Blast",
+            "row": 0,
+            "ability": "Poof",
             "type": "Hero",
-            "passive": "Raise Dead"
+            "passive": "Divide We Stand"
+        },
+        {
+            "tier": 4,
+            "name": "Lina",
+            "column": 5,
+            "alliances": [
+                "Human",
+                "Mage"
+            ],
+            "row": 0,
+            "ability": "Laguna Blade",
+            "type": "Hero",
+            "passive": ""
+        },
+        {
+            "tier": 4,
+            "name": "Void Spirit",
+            "column": 6,
+            "alliances": [
+                "Void",
+                "Spirit"
+            ],
+            "row": 0,
+            "ability": "Dissimilate",
+            "type": "Hero",
+            "passive": "Void Elemental"
+        },
+        {
+            "tier": 4,
+            "name": "Viper",
+            "column": 7,
+            "alliances": [
+                "Dragon",
+                "Poisoner"
+            ],
+            "row": 0,
+            "ability": "Nethertoxin",
+            "type": "Hero",
+            "passive": "Corrosive Skin"
         },
         "null",
+        "null",
+        "null",
+        {
+            "tier": 4,
+            "name": "Death Prophet",
+            "column": 3,
+            "alliances": [
+                "Fallen",
+                "Heartless"
+            ],
+            "row": 1,
+            "ability": "Exorcism",
+            "type": "Hero",
+            "passive": ""
+        },
+        "null",
+        "null",
+        "null",
+        "null",
+        "null",
+        {
+            "tier": 1,
+            "name": "Tusk",
+            "column": 1,
+            "alliances": [
+                "Savage",
+                "Warrior"
+            ],
+            "row": 2,
+            "ability": "Walrus Punch!",
+            "type": "Hero",
+            "passive": ""
+        },
+        {
+            "tier": 3,
+            "name": "Puck",
+            "column": 2,
+            "alliances": [
+                "Dragon",
+                "Mage"
+            ],
+            "row": 2,
+            "ability": "Illusory Orb",
+            "type": "Hero",
+            "passive": "Phase Shift"
+        },
+        "null",
+        "null",
+        {
+            "tier": 1,
+            "name": "Vengeful Spirit",
+            "column": 5,
+            "alliances": [
+                "Fallen",
+                "Heartless"
+            ],
+            "row": 2,
+            "ability": "Wave of Terror",
+            "type": "Hero",
+            "passive": ""
+        },
         "null",
         "null",
         "null",
